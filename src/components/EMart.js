@@ -2,21 +2,36 @@ import React, { Component } from 'react';
 import NavBar from './nav/NavBar.js';
 import ApplicationViews from './ApplicationViews';
 import UserDataManager from './auth/UserDataManager';
+import { useCookies } from 'react-cookie';
 import './EMart.css';
 
 class EMart extends Component {
-    state = {}
+    constructor(props) {
+        super(props);
+
+        this.state = {
+
+        }
+    }
 
     componentDidMount() {
 
     }
 
     logout = () => {
-
+        document.cookie = "token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
     }
 
-    login = () => {
-
+    login = (authObject) => {
+        UserDataManager.postUserToken(authObject)
+            .then(response => {
+                if (response.jwt) {
+                    document.cookie = `token=Bearer ${response.jwt}`;
+                    console.log(response)
+                } else {
+                    // Figure out how to handle unsuccessful response from the API
+                }
+            });
     }
 
 //     logout = () => {

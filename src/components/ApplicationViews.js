@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import Auth from './auth/Auth';
+import ProductList from './products/ProductList';
 
 class ApplicationViews extends Component {
     state = {}
@@ -11,7 +12,11 @@ class ApplicationViews extends Component {
                 <h1>Welcome to EMart!</h1>
                 <Route exact path="/auth" render={props => {
                     return <Auth {...props} login={this.props.login} />
-                }}/>
+                }} />
+
+                <Route exact path="/products" render={props => {
+                    return <ProductList {...props} />
+                }} />
             </React.Fragment>
         )
     }

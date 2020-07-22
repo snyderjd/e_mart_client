@@ -9,6 +9,16 @@ export default {
             },
             body: JSON.stringify(userObject)
         }).then(response => response.json());
+    },
+
+    postUserToken(authObject) {
+        return fetch(`${apiUrl}/user_token`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(authObject)
+        }).then(response => response.json());
     }
     
 }

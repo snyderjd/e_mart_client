@@ -9,24 +9,28 @@ class NavBar extends Component {
         this.state = {
 
         };
+
+        this.handleLogout = this.handleLogout.bind(this);
+    }
+
+    handleLogout() {
+        this.props.logout();
     }
 
     render() {
+        console.log("navbar props", this.props)
         return (
             <React.Fragment>
                 <nav className="navbar fixed-top navbar-expand d-flex justify-content-between">
                     <ul className="navbar-nav d-flex justify-content-end">
                         <li className="nav-item">
-                            NavItem1
-                        </li>
-                        <li className="nav-item">
-                            NavItem2
-                        </li>
-                        <li className="nav-item">
-                            NavItem3
+                            <Link to="/products" className="nav-link">All Products</Link>
                         </li>
                         <li className="nav-item">
                             <Link to="/auth" className="nav-link">Login/Register</Link>
+                        </li>
+                        <li>
+                            <Link onClick={this.handleLogout} to="/" className="nav-link">Logout</Link>
                         </li>
                     </ul>
                 </nav>

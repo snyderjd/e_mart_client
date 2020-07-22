@@ -10,8 +10,7 @@ class Login extends Component {
 
         this.state = {
             email: "",
-            password: "",
-            users: []
+            password: ""
         };
     }
 
@@ -23,7 +22,16 @@ class Login extends Component {
 
     handleLogin = (event) => {
         event.preventDefault();
+        const authObject = {
+            "auth": {
+                "email": this.state.email,
+                "password": this.state.password
+            }
+        }
 
+        this.props.login(authObject);
+        this.props.history.push("/");
+        this.setState({ email: "", password: "" })
     }
 
     componentDidMount() {
