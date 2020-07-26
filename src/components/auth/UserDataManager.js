@@ -1,3 +1,5 @@
+
+
 const apiUrl = "http://localhost:3000";
 
 export default {
@@ -19,7 +21,28 @@ export default {
             },
             body: JSON.stringify(authObject)
         }).then(response => response.json());
+    },
+
+    getCurrentUser(token) {
+        if (document.cookie.includes("token=Bearer")) { 
+
+            return fetch(`${apiUrl}/users/current`, {
+                method: "GET",
+                headers: {
+                    "Authorization": token
+                }
+            }).then(response => response.json())
+        }
     }
+
+    // getCurrentUser(token) {
+    //     return fetch(`${apiUrl}/users/current`, {
+    //         method: "GET",
+    //         headers: {
+    //             "Authorization": token
+    //         }
+    //     }).then(response => response.json());
+    // }
     
 }
 
