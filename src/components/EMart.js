@@ -74,8 +74,10 @@ class EMart extends Component {
         console.log("EMart state", this.state);
         return (
             <React.Fragment>
-                <NavBar {...this.props} logout={this.logout} />
-                <ApplicationViews login={this.login} currentUser={this.state.currentUser} />
+                <div className="EMart--container">
+                    <NavBar {...this.props} logout={this.logout} />
+                    <ApplicationViews login={this.login} currentUser={this.state.currentUser} />
+                </div>
             </React.Fragment>
         )
     }
