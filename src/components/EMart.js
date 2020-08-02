@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import NavBar from './nav/NavBar.js';
 import ApplicationViews from './ApplicationViews';
 import UserDataManager from './auth/UserDataManager';
-// import { withCookies, Cookies } from 'react-cookie';
 import Cookies from 'universal-cookie';
 import './EMart.css';
 
@@ -76,7 +75,7 @@ class EMart extends Component {
         return (
             <React.Fragment>
                 <NavBar {...this.props} logout={this.logout} />
-                <ApplicationViews login={this.login} />
+                <ApplicationViews login={this.login} currentUser={this.state.currentUser} />
             </React.Fragment>
         )
     }

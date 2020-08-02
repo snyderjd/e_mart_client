@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import ProductDataManager from './ProductDataManager';
 import ProductCard from './ProductCard';
 import './Products.css'
+import Cookies from 'universal-cookie';
+import UserDataManager from '../auth/UserDataManager';
+import { Button } from 'reactstrap';
 
 class ProductList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            products: []
+            products: [],
+            currentUser: {}
         };
     }
 
@@ -16,6 +20,27 @@ class ProductList extends Component {
         ProductDataManager.getAllProducts().then(products => {
             this.setState({ products: products })
         });
+
+        // If there is already a token in cookies, use it to get the current user and store in state
+        const cookies = new Cookies();
+        const token = cookies.get('token');
+
+        if (token) {
+            UserDataManager.getCurrentUser(token).then(user => {
+                this.setState({ currentUser: user })
+            });
+        }
+
+    }
+
+    renderAddProductButton() {
+        if (this.state.currentUser.role === "admin") {
+            return <Button 
+                        onClick={() => this.props.history.push("/products/create")} 
+                        color="primary">
+                        Add Product
+                    </Button>
+        }
     }
 
     render() {
@@ -24,6 +49,7 @@ class ProductList extends Component {
             <React.Fragment>
                 <div className="ProductList-container">
                     <h1>All Products</h1>
+                    {this.renderAddProductButton()}
                     <div className="products-container">
                         {this.state.products.map(product => 
                             <ProductCard 
