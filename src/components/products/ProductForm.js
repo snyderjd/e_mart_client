@@ -25,10 +25,42 @@ class ProductForm extends Component {
         });
     }
 
+    // Update state when input fields change
     handleFieldChange = (event) => {
         const newState = {};
         newState[event.target.id] = event.target.value;
         this.setState(newState);
+    }
+
+    // Send user back to products page when they click 'Cancel'
+    handleCancel = (event) => {
+        this.props.history.push("/products");
+    }
+
+    // Takes user's inputs, builds a product object, then calls the function that saves the product to the DB
+    constructNewProduct = (event) => {
+
+        if (this.state.name === "" || 
+            this.state.description === "" || 
+            this.state.price === "" ||
+            this.state.quantity <= 0) {
+                alert("Please fill out all fields")
+            } else {
+                const newProduct = {
+                    product: {
+                        name: this.state.name,
+                        description: this.state.description,
+                        category_id: this.state.categoryId,
+                        price: this.state.price,
+                        quantity: this.state.quantity,
+                        is_active: this.state.isActive
+                    }
+                }
+
+                ProductDataManager.postProduct(newProduct).then(() => {
+                    this.props.history.push("/products");
+                });
+            }
     }
 
     render() {
@@ -110,8 +142,12 @@ class ProductForm extends Component {
                             </select>
                         </div>
                         <div className="ProductForm__buttons--container">
-                            <Button color="primary">Cancel</Button>
-                            <Button color="primary">Submit</Button>
+                            <Button onClick={this.handleCancel} color="primary">
+                                Cancel
+                            </Button>
+                            <Button onClick={this.constructNewProduct} color="primary">
+                                Submit
+                            </Button>
                         </div>
                     </form>
                 </div>

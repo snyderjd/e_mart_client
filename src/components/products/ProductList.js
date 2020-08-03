@@ -33,6 +33,12 @@ class ProductList extends Component {
 
     }
 
+    // addProduct = (newProduct) => {
+    //     return ProductDataManager.postProduct(newProduct).then(() => {
+
+    //     })
+    // }
+
     renderAddProductButton() {
         if (this.state.currentUser.role === "admin") {
             return <Button 
