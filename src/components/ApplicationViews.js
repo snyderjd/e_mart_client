@@ -2,9 +2,16 @@ import React, { Component } from 'react';
 import { Route } from 'react-router-dom';
 import Auth from './auth/Auth';
 import ProductList from './products/ProductList';
+import ProductForm from './products/ProductForm';
 
 class ApplicationViews extends Component {
     state = {}
+
+    isAdmin = () => {
+        if (this.props.currentUser.role === "admin") {
+            return true
+        }
+    }
 
     render() {
         return (
@@ -16,6 +23,13 @@ class ApplicationViews extends Component {
 
                 <Route exact path="/products" render={props => {
                     return <ProductList {...props} />
+                }} />
+
+                <Route exact path="/products/create" render={props => {
+                    // Renders form for admins to add new products
+                    if (this.isAdmin()) {
+                        return <ProductForm {...props} />
+                    }
                 }} />
             </React.Fragment>
         )

@@ -4,11 +4,14 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import EMart from './components/EMart';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { CookiesProvider } from 'react-cookie';
 
 ReactDOM.render(
-  <Router>
-    <EMart />
-  </Router>
+  <CookiesProvider>
+    <Router>
+      <EMart />
+    </Router>
+  </CookiesProvider>
   , document.getElementById('root')
 )
 

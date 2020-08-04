@@ -8,3 +8,8 @@ body {
     padding-top: 80px;
     font-family: 'Roboto', sans-serif;
 }
+
+.EMart--container {
+    width: 90%;
+    margin: auto;
+}

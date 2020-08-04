@@ -18,3 +18,27 @@
     margin: 10px;
     background: #F8F8F8;
 }
+
+.ProductForm__form {
+    width: 40%;
+    margin: auto;
+    border: 2px solid black;
+    background: #F8F8F8;
+}
+
+.ProductForm--heading {
+    text-align: center;
+    margin: auto;
+}
+
+.ProductForm--inputPair {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.ProductForm__buttons--container {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 10px;   
+}
