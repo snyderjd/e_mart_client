@@ -31,7 +31,8 @@ class EMart extends Component {
 
     logout = () => {
         // Removes the cookie and resets state to clear out token and user info
-        document.cookie = "token= ; expires = Thu, 01 Jan 1970 00:00:00 GMT";
+        const cookies = new Cookies();
+        cookies.remove('token');
         this.setState({ token: "", currentUser: {} })
     }
 
