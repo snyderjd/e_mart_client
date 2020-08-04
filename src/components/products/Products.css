@@ -11,7 +11,7 @@
     justify-content: space-evenly;
 }
 
-.product-card {
+.ProductCard__container {
     width: 40%;
     border: 2px solid blue;
     padding: 10px;

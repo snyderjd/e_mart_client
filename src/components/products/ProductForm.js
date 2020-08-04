@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
-import ProductDataManager from './ProductDataManager';
-import CategoryDataManager from '../categories/CategoryDataManager';
+import ProductDataManager from '../../modules/ProductDataManager';
+import CategoryDataManager from '../../modules/CategoryDataManager';
 
 class ProductForm extends Component {
     constructor(props) {

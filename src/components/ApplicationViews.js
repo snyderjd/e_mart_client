@@ -3,6 +3,7 @@ import { Route } from 'react-router-dom';
 import Auth from './auth/Auth';
 import ProductList from './products/ProductList';
 import ProductForm from './products/ProductForm';
+import ProductDetail from './products/ProductDetail';
 
 class ApplicationViews extends Component {
     state = {}
@@ -31,13 +32,15 @@ class ApplicationViews extends Component {
                         return <ProductForm {...props} />
                     }
                 }} />
+
+                <Route exact path="/products/:productId(\d+)" render={props => {
+                    // pass the productId to the ProductDetail component
+                    return <ProductDetail productId={parseInt(props.match.params.productId)} {...props} />
+                }} />
             </React.Fragment>
         )
     }
 
-//                 <Route exact path="/auth" render={props => {
-//                     return <Auth {...props} login={this.props.login} />
-//                 }} />
 }
 
 export default ApplicationViews;

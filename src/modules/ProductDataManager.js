@@ -8,6 +8,11 @@ export default {
             .then(response => response.json());
     },
 
+    getSingleProduct(id) {
+        return fetch(`${apiUrl}/products/${id}`)
+            .then(response => response.json());
+    },
+
     postProduct(newProduct) {
         const cookies = new Cookies();
         const token = cookies.get('token');

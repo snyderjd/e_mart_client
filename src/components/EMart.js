@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import NavBar from './nav/NavBar.js';
 import ApplicationViews from './ApplicationViews';
-import UserDataManager from './auth/UserDataManager';
+import UserDataManager from '../modules/UserDataManager';
 import Cookies from 'universal-cookie';
 import './EMart.css';
 
