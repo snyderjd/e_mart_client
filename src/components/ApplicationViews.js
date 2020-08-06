@@ -4,6 +4,7 @@ import Auth from './auth/Auth';
 import ProductList from './products/ProductList';
 import ProductForm from './products/ProductForm';
 import ProductDetail from './products/ProductDetail';
+import ProductEdit from './products/ProductEdit';
 
 class ApplicationViews extends Component {
     state = {}
@@ -36,6 +37,13 @@ class ApplicationViews extends Component {
                 <Route exact path="/products/:productId(\d+)" render={props => {
                     // pass the productId to the ProductDetail component
                     return <ProductDetail productId={parseInt(props.match.params.productId)} {...props} />
+                }} />
+
+                <Route exact path="/products/:productId(\d+)/edit" render={props => {
+                    // Renders form for admins to edit products
+                    if (this.isAdmin()) {
+                        return <ProductEdit productId={parseInt(props.match.params.productId)} {...props} />
+                    }
                 }} />
             </React.Fragment>
         )

@@ -32,8 +32,8 @@ class EMart extends Component {
     logout = () => {
         // Removes the cookie and resets state to clear out token and user info
         const cookies = new Cookies();
-        cookies.remove('token');
-        this.setState({ token: "", currentUser: {} })
+        this.setState({ token: "", currentUser: {} });
+        cookies.remove('token', { path: "/"});
     }
 
     login = (authObject) => {
