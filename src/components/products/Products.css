@@ -19,25 +19,25 @@
     background: #F8F8F8;
 }
 
-.ProductForm__form {
+.ProductForm__form, .ProductEdit__form {
     width: 40%;
     margin: auto;
     border: 2px solid black;
     background: #F8F8F8;
 }
 
-.ProductForm--heading {
+.ProductForm--heading, .ProductEdit--heading {
     text-align: center;
     margin: auto;
 }
 
-.ProductForm--inputPair {
+.ProductForm--inputPair, .ProductEdit--inputPair {
     display: flex;
     justify-content: space-between;
     margin: 10px;
 }
 
-.ProductForm__buttons--container {
+.ProductForm__buttons--container, .ProductEdit__buttons--container {
     display: flex;
     justify-content: space-evenly;
     margin: 10px;   
