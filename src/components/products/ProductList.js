@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import ProductDataManager from './ProductDataManager';
+import ProductDataManager from '../../modules/ProductDataManager';
 import ProductCard from './ProductCard';
 import './Products.css'
 import Cookies from 'universal-cookie';
-import UserDataManager from '../auth/UserDataManager';
+import UserDataManager from '../../modules/UserDataManager';
 import { Button } from 'reactstrap';
 
 class ProductList extends Component {
@@ -65,7 +65,7 @@ class ProductList extends Component {
                             />    
                         )}
                     </div>
-
+                    
                 </div>
             </React.Fragment>
         )

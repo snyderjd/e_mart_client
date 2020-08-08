@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import UserDataManager from './UserDataManager';
+import UserDataManager from '../../modules/UserDataManager';
 import { Button } from 'reactstrap';
 import Register from './Register';
 import './Auth.css';

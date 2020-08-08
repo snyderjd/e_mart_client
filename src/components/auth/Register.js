@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
-import UserDataManager from './UserDataManager';
+import UserDataManager from '../../modules/UserDataManager';
 
 class Register extends Component {
     constructor(props) {
