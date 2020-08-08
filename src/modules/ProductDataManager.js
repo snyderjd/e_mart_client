@@ -25,5 +25,20 @@ export default {
             },
             body: JSON.stringify(newProduct)
         }).then(response => response.json());
+    },
+
+    updateProduct(product) {
+        const cookies = new Cookies();
+        const token = cookies.get('token');
+
+        return fetch(`${apiUrl}/products/${product.product.id}`, {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": token
+            },
+            body: JSON.stringify(product)           
+        }).then(response => response.json());
     }
+
 }

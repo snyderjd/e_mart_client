@@ -57,8 +57,30 @@ class ProductEdit extends Component {
     }
 
     // Takes user's inputs, builds a product object, then calls the function that saves the product to the DB
-    constructUpdatedProduct() {
+    constructUpdatedProduct = (event) => {
+        
+        if (this.state.name === "" ||
+            this.state.description === "" ||
+            this.state.price === "" ||
+            this.state.quantity <= 0) {
+                alert("Please fill out all fields")
+            } else {
+                const updatedProduct = {
+                    product: {
+                        id: this.props.productId,
+                        name: this.state.name,
+                        description: this.state.description,
+                        category_id: this.state.categoryId,
+                        price: this.state.price,
+                        quantity: this.state.quantity,
+                        is_active: this.state.isActive
+                    }
+                }
 
+                ProductDataManager.updateProduct(updatedProduct).then(() => {
+                    this.props.history.push(`/products/${this.props.productId}`);
+                });
+            }
     }
 
     // Takes user's inputs, builds a product object, then calls the function that saves the product to the DB
