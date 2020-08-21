@@ -18,7 +18,6 @@ class ApplicationViews extends Component {
     render() {
         return (
             <React.Fragment>
-                <h1>Welcome to EMart!</h1>
                 <Route exact path="/auth" render={props => {
                     return <Auth {...props} login={this.props.login} />
                 }} />

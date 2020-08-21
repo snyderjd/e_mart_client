@@ -1,0 +1,10 @@
+.navbar {
+  z-index: 1000;
+  background-color: navy;
+  color: white;
+  font-weight: bold;
+}
+
+.nav-link {
+  color: white;
+}

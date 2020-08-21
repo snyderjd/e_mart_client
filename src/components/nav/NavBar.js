@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Cookies from 'universal-cookie';
 import './NavBar.css';
 
 class NavBar extends Component {
@@ -17,6 +18,25 @@ class NavBar extends Component {
         this.props.logout();
     }
 
+    renderLoginOrLogout = () => {
+        const cookies = new Cookies();
+        const token = cookies.get('token');
+
+        if (token) {
+            return (
+                <li className="nav-item">
+                    <Link onClick={this.handleLogout} to="/" className="nav-link">Logout</Link>
+                </li>
+            )
+        } else {
+            return (
+                <li className="nav-item">
+                    <Link to="/auth" className="nav-link">Login/Register</Link>
+                </li>
+            )
+        }
+    }
+
     render() {
         console.log("navbar props", this.props)
         return (
@@ -26,12 +46,7 @@ class NavBar extends Component {
                         <li className="nav-item">
                             <Link to="/products" className="nav-link">All Products</Link>
                         </li>
-                        <li className="nav-item">
-                            <Link to="/auth" className="nav-link">Login/Register</Link>
-                        </li>
-                        <li>
-                            <Link onClick={this.handleLogout} to="/" className="nav-link">Logout</Link>
-                        </li>
+                        {this.renderLoginOrLogout()}
                     </ul>
                 </nav>
             </React.Fragment>

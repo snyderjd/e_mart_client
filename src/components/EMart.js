@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import NavBar from './nav/NavBar.js';
 import ApplicationViews from './ApplicationViews';
 import UserDataManager from '../modules/UserDataManager';
+import OrderDataManager from '../modules/OrderDataManager';
 import Cookies from 'universal-cookie';
 import './EMart.css';
 
@@ -34,6 +35,7 @@ class EMart extends Component {
         const cookies = new Cookies();
         this.setState({ token: "", currentUser: {} });
         cookies.remove('token', { path: "/"});
+        cookies.remove('activeOrder', { path: "/"});
     }
 
     login = (authObject) => {
@@ -48,6 +50,13 @@ class EMart extends Component {
 
                     UserDataManager.getCurrentUser(this.state.token).then(user => {
                         this.setState({ currentUser: user });
+                        console.log(user);
+                    });
+
+                    // Create a new order or get user's active order and store in cookies
+                    OrderDataManager.createOrder().then(order => {
+                        cookies.set('activeOrder', order);
+                        console.log("activeOrder", order);
                     });
 
                 } else {
@@ -55,21 +64,6 @@ class EMart extends Component {
                 }
             });
     }
-
-//     logout = () => {
-//         sessionStorage.clear();
-//         this.setState({ username: "" })
-//     }
-
-//     login = () => {
-//         this.setState({ activeUserId: sessionStorage.getItem("activeUserId")})
-//         UserDataManager.getUser(this.state.activeUserId).then(user => {
-//             this.setState({
-//                 username: user.username,
-//                 activeUserId: sessionStorage.getItem("activeUserId")
-//             })
-//         })
-//     }    
 
     render() {
         console.log("EMart state", this.state);
