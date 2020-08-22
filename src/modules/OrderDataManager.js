@@ -14,6 +14,18 @@ export default {
         "Authorization": token
       }
     }).then(response => response.json());
+  },
+
+  getOrder(id) {
+    const cookies = new Cookies();
+    const token = cookies.get('token');
+
+    return fetch(`${apiUrl}/orders/${id}`, {
+      method: "GET",
+      headers: {
+        "Authorization": token
+      }
+    }).then(response => response.json());
   }
 
 }

@@ -72,7 +72,7 @@ class Login extends Component {
                             </div>
                         </div>
                         <div className="Login-buttons">
-                            <Button color="success" type="submit">Sign In</Button>{' '}
+                            <Button color="primary" type="submit">Sign In</Button>{' '}
                             <Register {...this.props} />
                         </div>
                     </form>
