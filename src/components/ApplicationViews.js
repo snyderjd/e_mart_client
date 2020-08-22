@@ -5,15 +5,14 @@ import ProductList from './products/ProductList';
 import ProductForm from './products/ProductForm';
 import ProductDetail from './products/ProductDetail';
 import ProductEdit from './products/ProductEdit';
+import Cart from './orders/Cart';
 
 class ApplicationViews extends Component {
     state = {}
 
-    isAdmin = () => {
-        if (this.props.currentUser.role === "admin") {
-            return true
-        }
-    }
+    isAdmin = () => (this.props.currentUser.role === "admin" ? true : false )
+
+    isAuthorized = () => (this.props.currentUser ? true : false )
 
     render() {
         return (
@@ -44,6 +43,15 @@ class ApplicationViews extends Component {
                         return <ProductEdit productId={parseInt(props.match.params.productId)} {...props} />
                     }
                 }} />
+
+                <Route exact path="/cart" render={props => {
+                    // Renders Cart component if user is authorized
+                    if (this.isAuthorized()) {
+                        return <Cart {...props} />
+                    }
+                }} />
+
+
             </React.Fragment>
         )
     }

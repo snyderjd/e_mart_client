@@ -64,7 +64,7 @@ class Register extends Component {
     render() {
         return (
             <div>
-                <Button onClick={this.toggle} color="success" >Register</Button>
+                <Button onClick={this.toggle} color="primary" >Register</Button>
                 <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
                     <ModalHeader toggle={this.toggle}>Register New Account</ModalHeader>
                     <ModalBody>
@@ -135,8 +135,8 @@ class Register extends Component {
                         </form>
                     </ModalBody>
                     <ModalFooter>
-                        <Button onClick={this.handleRegister} color="success" >Register</Button>
-                        <Button onClick={this.toggle} color="success" >Cancel</Button>
+                        <Button onClick={this.handleRegister} color="primary" >Register</Button>
+                        <Button onClick={this.toggle} color="primary" >Cancel</Button>
                     </ModalFooter>
                 </Modal>
             </div>
