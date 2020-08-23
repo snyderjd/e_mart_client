@@ -28,6 +28,25 @@ export default {
     }).then(response => response.json());
   },
 
+  addProductToOrder(orderId, productId) {
+    const cookies = new Cookies();
+    const token = cookies.get('token');
+
+    return fetch(`${apiUrl}/orders/${orderId}/${productId}`, {
+      method: "POST",
+      headers: {
+        "Authorization": token
+      }
+    }).then(response => {
+      if (response.ok) {
+        window.alert("Product successfully added to cart.");
+        return response.json();
+      } else {
+        window.alert("Error: Product not added to cart.");
+      }
+    });
+  },
+
   deleteProductFromOrder(orderId, productId) {
     const cookies = new Cookies();
     const token = cookies.get('token');

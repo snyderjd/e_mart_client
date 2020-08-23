@@ -61,6 +61,7 @@ class ProductList extends Component {
                             <ProductCard 
                                 key={product.id}
                                 product={product}
+                                currentUser={this.state.currentUser}
                                 {...this.props}
                             />    
                         )}

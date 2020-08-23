@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import './Products.css';
+import Cookies from 'universal-cookie';
+import OrderDataManager from '../../modules/OrderDataManager';
 
 class ProductCard extends Component {
     inStock() {
@@ -15,6 +17,27 @@ class ProductCard extends Component {
         event.preventDefault();
         this.props.history.push(`/products/${this.props.product.id}`)
     }
+
+    handleAddToCart = (event) => {
+        event.preventDefault();
+        const cookies = new Cookies();
+        const activeOrderId = cookies.get('activeOrder').id;
+        const productId = event.target.id;
+
+        OrderDataManager.addProductToOrder(activeOrderId, productId);
+    }
+
+    renderAddToCartButton = () => {
+        //   If currentUser in props has an email address, they are an authorized user and should see the "Add To Cart" button
+        if (this.props.currentUser.email) {
+            return  <Button 
+                        id={this.props.product.id} 
+                        color="primary"
+                        onClick={this.handleAddToCart}
+                        >Add To Cart
+                    </Button>
+        }  
+    }
     
     // Render a product, showing it's basic information on the ProductList component
     render() {
@@ -26,6 +49,7 @@ class ProductCard extends Component {
                 <p>Price: ${this.props.product.price}</p>
                 <p>Quantity In Stock: {this.props.product.quantity}</p>
                 <Button onClick={this.handleViewProduct} color="primary">View Product</Button>
+                {this.renderAddToCartButton()}
             </div>
         )
     }

@@ -4,6 +4,7 @@ import { Button } from 'reactstrap';
 import './Products.css';
 import Cookies from 'universal-cookie';
 import UserDataManager from '../../modules/UserDataManager';
+import OrderDataManager from '../../modules/OrderDataManager';
 
 class ProductDetail extends Component {
     constructor(props) {
@@ -32,12 +33,33 @@ class ProductDetail extends Component {
         }
     }
 
+    handleAddToCart = (event) => {
+        event.preventDefault();
+        const cookies = new Cookies();
+        const activeOrderId = cookies.get('activeOrder').id;
+        const productId = event.target.id;
+
+        OrderDataManager.addProductToOrder(activeOrderId, productId);
+    }
+
     renderEditProductButton() {
         if (this.state.currentUser.role === "admin") {
             return  <Button
                         onClick={() => this.props.history.push(`/products/${this.state.product.id}/edit`)}
                         color="primary">
                         Edit Product
+                    </Button>
+        }
+    }
+
+    renderAddToCartButton = () => {
+        // If currentUser has an email address, they are an authorized user and should see the "Add To Cart" button
+        if (this.state.currentUser.email) {
+            return  <Button 
+                        id={this.state.product.id}
+                        color="primary"
+                        onClick={this.handleAddToCart}>
+                        Add To Cart
                     </Button>
         }
     }
@@ -51,6 +73,7 @@ class ProductDetail extends Component {
                 <p className="ProductDetail__category">{this.state.product.category.name}</p>
                 <p className="ProductDetail__price">$ {this.state.product.price}</p>
                 {this.renderEditProductButton()}
+                {this.renderAddToCartButton()}
             </div>
         )
     }
