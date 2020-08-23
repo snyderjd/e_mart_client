@@ -26,6 +26,26 @@ export default {
         "Authorization": token
       }
     }).then(response => response.json());
+  },
+
+  deleteProductFromOrder(orderId, productId) {
+    const cookies = new Cookies();
+    const token = cookies.get('token');
+
+    return fetch(`${apiUrl}/orders/${orderId}/${productId}`, {
+      method: "DELETE",
+      headers: {
+        "Authorization": token
+      }
+    }).then(response => response.json());
   }
 
 }
+
+
+
+
+
+
+
+

@@ -4,8 +4,6 @@ import Cookies from 'universal-cookie';
 import OrderDataManager from '../../modules/OrderDataManager';
 import './Orders.css';
 
-// import Cookies from 'universal-cookie';
-
 class Cart extends Component {
   constructor(props) {
     super(props);
@@ -30,25 +28,45 @@ class Cart extends Component {
 
   }
 
+  handleRemoveProduct = (event) => {
+    event.preventDefault();
+
+    OrderDataManager.deleteProductFromOrder(this.state.activeOrderId, event.target.id)
+      .then(response => {
+        console.log("response", response);
+        OrderDataManager.getOrder(this.state.activeOrderId)
+          .then(activeOrder => {
+            this.setState({ activeOrder })
+          });
+      });
+      
+  }
+
   render() {
     console.log("Cart state", this.state);
     return (
       <div className="Cart__container">
         <h1>Cart</h1>
         <table className="Cart__products--table">
-          <tr>
-            <th>Product</th>
-            <th>Description</th>
-            <th>Cost</th>
-          </tr>
-          {this.state.activeOrder.products ? this.state.activeOrder.products.map(product =>
+          <thead>
             <tr>
-              <td>{product.name}</td>
-              <td>{product.description.slice(0, 40)}...</td>
-              <td>$ {product.price}</td>
-              <Button color="danger">Remove</Button>
-            </tr>
-          ) : ""}
+              <th>Product</th>
+              <th>Description</th>
+              <th>Cost</th>
+            </tr> 
+          </thead>
+          <tbody>
+            {this.state.activeOrder.products && this.state.activeOrder.products.map(product =>
+              <tr>
+                <td>{product.name}</td>
+                <td>{product.description.slice(0, 40)}...</td>
+                <td>$ {product.price}</td>
+                <td>
+                  <Button onClick={this.handleRemoveProduct} id={product.id} color="danger">Remove</Button>
+                </td>
+              </tr> 
+            )}
+          </tbody>
         </table>
           <h5>Order Total: $ {this.state.activeOrder.total_cost}</h5>
         <Button color="primary">Check Out</Button>
@@ -56,38 +74,6 @@ class Cart extends Component {
     )
   }
 
-  // <div className="products-container">
-  //     {this.state.products.map(product => 
-  //         <ProductCard 
-  //             key={product.id}
-  //             product={product}
-  //             {...this.props}
-  //         />    
-  //     )}
-  // </div>
 }
 
 export default Cart;
-
-// class ProductCard extends Component {
-//     handleViewProduct = (event) => {
-//         event.preventDefault();
-//         this.props.history.push(`/products/${this.props.product.id}`)
-//     }
-    
-//     // Render a product, showing it's basic information on the ProductList component
-//     render() {
-//         return (
-//             <div className="ProductCard__container">
-//                 <h3 className="ProductCard-heading">{this.props.product.name}</h3>
-//                 <p>Description: {this.props.product.description}</p>
-//                 <p>Category: {this.props.product.category.name}</p>
-//                 <p>Price: ${this.props.product.price}</p>
-//                 <p>Quantity In Stock: {this.props.product.quantity}</p>
-//                 <Button onClick={this.handleViewProduct} color="primary">View Product</Button>
-//             </div>
-//         )
-//     }
-// }
-
-// export default ProductCard;
