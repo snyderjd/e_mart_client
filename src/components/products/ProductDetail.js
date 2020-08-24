@@ -72,8 +72,10 @@ class ProductDetail extends Component {
                 <p className="ProductDetail__description">{this.state.product.description}</p>
                 <p className="ProductDetail__category">{this.state.product.category.name}</p>
                 <p className="ProductDetail__price">$ {this.state.product.price}</p>
-                {this.renderEditProductButton()}
-                {this.renderAddToCartButton()}
+                <div className="ProductDetail__buttons--container">
+                    {this.renderEditProductButton()}
+                    {this.renderAddToCartButton()}
+                </div>
             </div>
         )
     }

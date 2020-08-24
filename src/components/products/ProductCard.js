@@ -43,13 +43,17 @@ class ProductCard extends Component {
     render() {
         return (
             <div className="ProductCard__container">
-                <h3 className="ProductCard-heading">{this.props.product.name}</h3>
-                <p>Description: {this.props.product.description}</p>
-                <p>Category: {this.props.product.category.name}</p>
-                <p>Price: ${this.props.product.price}</p>
-                <p>Quantity In Stock: {this.props.product.quantity}</p>
-                <Button onClick={this.handleViewProduct} color="primary">View Product</Button>
-                {this.renderAddToCartButton()}
+                <div className="ProductCard__body">
+                    <h3 className="ProductCard-heading">{this.props.product.name}</h3>
+                    <p>Description: {this.props.product.description}</p>
+                    <p>Category: {this.props.product.category.name}</p>
+                    <p>Price: ${this.props.product.price}</p>
+                    <p>Quantity In Stock: {this.props.product.quantity}</p>
+                </div>
+                <div className="ProductCard__buttons--container">
+                    <Button onClick={this.handleViewProduct} color="primary">View Product</Button>
+                    {this.renderAddToCartButton()}    
+                </div>
             </div>
         )
     }

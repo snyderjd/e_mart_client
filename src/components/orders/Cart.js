@@ -47,7 +47,7 @@ class Cart extends Component {
     return (
       <div className="Cart__container">
         <h1>Cart</h1>
-        <table className="Cart__products--table">
+        <table className="Cart__products--table table">
           <thead>
             <tr>
               <th>Product</th>
@@ -59,7 +59,7 @@ class Cart extends Component {
             {this.state.activeOrder.products && this.state.activeOrder.products.map(product =>
               <tr>
                 <td>{product.name}</td>
-                <td>{product.description.slice(0, 40)}...</td>
+                <td>{product.description.slice(0, 50)}...</td>
                 <td>$ {product.price}</td>
                 <td>
                   <Button onClick={this.handleRemoveProduct} id={product.id} color="danger">Remove</Button>
