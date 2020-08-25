@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import Cookies from 'universal-cookie';
+import CheckoutModal from './CheckoutModal';
 import OrderDataManager from '../../modules/OrderDataManager';
 import './Orders.css';
 
@@ -42,6 +43,22 @@ class Cart extends Component {
       
   }
 
+  updateOrder = (order) => {
+    // Calls OrderDataManager.updateOrder(orderId, order), passing in the order object received from the CheckoutModal and using the activeOrderId in state
+    console.log("updatedOrder", order);
+    OrderDataManager.updateOrder(this.state.activeOrderId, order)
+      .then(order => {
+
+        if (order.is_complete === true) {
+          // Create a new order for the user
+          OrderDataManager.createOrder();
+          this.props.history.push("/products");
+        }
+        
+      });
+    
+  }
+
   render() {
     console.log("Cart state", this.state);
     return (
@@ -69,7 +86,7 @@ class Cart extends Component {
           </tbody>
         </table>
           <h5>Order Total: $ {this.state.activeOrder.total_cost}</h5>
-        <Button color="primary">Check Out</Button>
+        <CheckoutModal updateOrder={this.updateOrder} />
       </div>
     )
   }
