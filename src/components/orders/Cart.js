@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import Cookies from 'universal-cookie';
+import CheckoutModal from './CheckoutModal';
 import OrderDataManager from '../../modules/OrderDataManager';
 import './Orders.css';
-
-// import Cookies from 'universal-cookie';
 
 class Cart extends Component {
   constructor(props) {
@@ -30,64 +29,68 @@ class Cart extends Component {
 
   }
 
+  handleRemoveProduct = (event) => {
+    event.preventDefault();
+
+    OrderDataManager.deleteProductFromOrder(this.state.activeOrderId, event.target.id)
+      .then(response => {
+        console.log("response", response);
+        OrderDataManager.getOrder(this.state.activeOrderId)
+          .then(activeOrder => {
+            this.setState({ activeOrder })
+          });
+      });
+      
+  }
+
+  updateOrder = (order) => {
+    // Calls OrderDataManager.updateOrder(orderId, order), passing in the order object received from the CheckoutModal and using the activeOrderId in state
+    console.log("updatedOrder", order);
+    OrderDataManager.updateOrder(this.state.activeOrderId, order)
+      .then(order => {
+
+        if (order.is_complete === true) {
+          // Create a new order for the user
+          OrderDataManager.createOrder();
+          this.props.history.push("/products");
+        }
+        
+      });
+    
+  }
+
   render() {
     console.log("Cart state", this.state);
     return (
       <div className="Cart__container">
         <h1>Cart</h1>
-        <table className="Cart__products--table">
-          <tr>
-            <th>Product</th>
-            <th>Description</th>
-            <th>Cost</th>
-          </tr>
-          {this.state.activeOrder.products ? this.state.activeOrder.products.map(product =>
+        <table className="Cart__products--table table">
+          <thead>
             <tr>
-              <td>{product.name}</td>
-              <td>{product.description.slice(0, 40)}...</td>
-              <td>$ {product.price}</td>
-              <Button color="danger">Remove</Button>
-            </tr>
-          ) : ""}
+              <th>Product</th>
+              <th>Description</th>
+              <th>Cost</th>
+            </tr> 
+          </thead>
+          <tbody>
+            {this.state.activeOrder.products && this.state.activeOrder.products.map(product =>
+              <tr>
+                <td>{product.name}</td>
+                <td>{product.description.slice(0, 50)}...</td>
+                <td>$ {product.price}</td>
+                <td>
+                  <Button onClick={this.handleRemoveProduct} id={product.id} color="danger">Remove</Button>
+                </td>
+              </tr> 
+            )}
+          </tbody>
         </table>
           <h5>Order Total: $ {this.state.activeOrder.total_cost}</h5>
-        <Button color="primary">Check Out</Button>
+        <CheckoutModal updateOrder={this.updateOrder} />
       </div>
     )
   }
 
-  // <div className="products-container">
-  //     {this.state.products.map(product => 
-  //         <ProductCard 
-  //             key={product.id}
-  //             product={product}
-  //             {...this.props}
-  //         />    
-  //     )}
-  // </div>
 }
 
 export default Cart;
-
-// class ProductCard extends Component {
-//     handleViewProduct = (event) => {
-//         event.preventDefault();
-//         this.props.history.push(`/products/${this.props.product.id}`)
-//     }
-    
-//     // Render a product, showing it's basic information on the ProductList component
-//     render() {
-//         return (
-//             <div className="ProductCard__container">
-//                 <h3 className="ProductCard-heading">{this.props.product.name}</h3>
-//                 <p>Description: {this.props.product.description}</p>
-//                 <p>Category: {this.props.product.category.name}</p>
-//                 <p>Price: ${this.props.product.price}</p>
-//                 <p>Quantity In Stock: {this.props.product.quantity}</p>
-//                 <Button onClick={this.handleViewProduct} color="primary">View Product</Button>
-//             </div>
-//         )
-//     }
-// }
-
-// export default ProductCard;

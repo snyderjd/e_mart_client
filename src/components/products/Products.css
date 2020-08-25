@@ -12,6 +12,9 @@
 }
 
 .ProductCard__container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     width: 40%;
     border: 2px solid blue;
     padding: 10px;
@@ -37,8 +40,11 @@
     margin: 10px;
 }
 
-.ProductForm__buttons--container, .ProductEdit__buttons--container {
+.ProductForm__buttons--container, 
+.ProductEdit__buttons--container,
+.ProductCard__buttons--container,
+.ProductDetail__buttons--container {
     display: flex;
     justify-content: space-evenly;
-    margin: 10px;   
+    margin: 10px;
 }
