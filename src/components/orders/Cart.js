@@ -51,7 +51,14 @@ class Cart extends Component {
 
         if (order.is_complete === true) {
           // Create a new order for the user
-          OrderDataManager.createOrder();
+          OrderDataManager.createOrder()
+            .then((newActiveOrder) => {
+              // Replace cookies with new activeOrder
+              const cookies = new Cookies();
+              cookies.set('activeOrder', newActiveOrder)
+              
+            });
+          
           this.props.history.push("/products");
         }
         
