@@ -50,6 +50,19 @@ class NavBar extends Component {
         }
     }
 
+    renderOrdersLink = () => {
+        const cookies = new Cookies();
+        const token = cookies.get('token')
+
+        if (token) {
+            return (
+                <li className="nav-item">
+                    <Link to="/orders" className="nav-link">Orders</Link>
+                </li>
+            )
+        }
+    }
+
     render() {
         console.log("navbar props", this.props)
         return (
@@ -61,6 +74,7 @@ class NavBar extends Component {
                         </li>
                         {this.renderLoginOrLogout()}
                         {this.renderCartLink()}
+                        {this.renderOrdersLink()}
                     </ul>
                 </nav>
             </React.Fragment>

@@ -5,6 +5,7 @@ import ProductList from './products/ProductList';
 import ProductForm from './products/ProductForm';
 import ProductDetail from './products/ProductDetail';
 import ProductEdit from './products/ProductEdit';
+import OrderList from './orders/OrderList';
 import Cart from './orders/Cart';
 
 class ApplicationViews extends Component {
@@ -51,6 +52,12 @@ class ApplicationViews extends Component {
                     }
                 }} />
 
+                <Route exact path="/orders" render={props => {
+                    // Renders OrderList component if user is authorized
+                    if (this.isAuthorized()) {
+                        return <OrderList {...props} />
+                    }
+                }} />
 
             </React.Fragment>
         )
