@@ -13,18 +13,21 @@ export default {
             .then(response => response.json());
     },
 
-    postProduct(newProduct) {
+    postProduct(productForm) {
         const cookies = new Cookies();
         const token = cookies.get('token');
 
-        return fetch(`${apiUrl}/products`, {
+        const config = {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": token
+                "Authorization": token,
+                "Accept": "application/json"
             },
-            body: JSON.stringify(newProduct)
-        }).then(response => response.json());
+            body: productForm
+        }
+
+        return fetch(`${apiUrl}/products`, config)
+            .then(response => response.json());
     },
 
     updateProduct(product) {
