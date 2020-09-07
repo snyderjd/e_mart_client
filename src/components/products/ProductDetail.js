@@ -69,6 +69,13 @@ class ProductDetail extends Component {
         return (
             <div className="ProductDetail__container">
                 <h2 className="ProductDetail__header">{this.state.product.name}</h2>
+                {this.state.product.image_url !== "No image" &&
+                        <img alt="Product image" src={this.state.product.image_url}
+                            height="300"
+                            width="400"
+                        >
+                        </img>
+                    }
                 <p className="ProductDetail__description">{this.state.product.description}</p>
                 <p className="ProductDetail__category">{this.state.product.category.name}</p>
                 <p className="ProductDetail__price">$ {this.state.product.price}</p>
