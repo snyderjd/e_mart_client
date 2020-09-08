@@ -62,9 +62,29 @@ class ProductEdit extends Component {
 
         const productForm = new FormData(event.target);
 
-        ProductDataManager.updateProduct(productForm).then(product => {
-            this.props.history.push(`/products/${this.props.productId}`);
-        });
+        ProductDataManager.updateProduct(productForm, this.props.productId)
+            .then(product => {
+                this.props.history.push(`/products/${this.props.productId}`);
+            });
+    }
+
+    handleDeleteImage = (event) => {
+        event.preventDefault();
+
+        // Call API function to remove the product's image, then use the returned product to update state
+        ProductDataManager.deleteProductImage(this.props.productId)
+            .then(product => {
+                this.setState({
+                    name: product.name,
+                    description: product.description,
+                    category_id: product.category_id,
+                    price: product.price,
+                    quantity: product.quantity,
+                    is_active: product.is_active,
+                    category: product.category.name,
+                    image_url: product.image_url
+                });
+            });
     }
 
     // Takes user's inputs, builds a product object, then calls the function that saves the product to the DB
@@ -93,32 +113,6 @@ class ProductEdit extends Component {
                 });
             }
     }
-
-    // Takes user's inputs, builds a product object, then calls the function that saves the product to the DB
-    // constructNewProduct = (event) => {
-
-    //     if (this.state.name === "" || 
-    //         this.state.description === "" || 
-    //         this.state.price === "" ||
-    //         this.state.quantity <= 0) {
-    //             alert("Please fill out all fields")
-    //         } else {
-    //             const newProduct = {
-    //                 product: {
-    //                     name: this.state.name,
-    //                     description: this.state.description,
-    //                     category_id: this.state.categoryId,
-    //                     price: this.state.price,
-    //                     quantity: this.state.quantity,
-    //                     is_active: this.state.isActive
-    //                 }
-    //             }
-
-    //             ProductDataManager.postProduct(newProduct).then(() => {
-    //                 this.props.history.push("/products");
-    //             });
-    //         }
-    // }
 
     render() {
         console.log("ProductEdit props", this.props);
@@ -211,6 +205,9 @@ class ProductEdit extends Component {
                                 >
                                 </img>
                             }
+                            <Button onClick={this.handleDeleteImage} color="danger">
+                                Remove Image
+                            </Button>
                             <Label for="image">Upload a new image to replace the above image</Label>
                             <Input type="file" accept="image/*" name="image" id="image" />
                         </FormGroup>

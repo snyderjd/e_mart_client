@@ -45,6 +45,25 @@ export default {
 
         return fetch(`${apiUrl}/products/${productId}`, config)
             .then(response => response.json());
+    },
+
+    deleteProductImage(productId) {
+        const cookies = new Cookies();
+        const token = cookies.get('token');
+
+        return fetch(`${apiUrl}/products/${productId}/image`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": token
+            }
+        }).then(response => {
+            if (response.ok) {
+                window.alert("Product image deleted!")
+                return response.json();
+            } else {
+                window.alert("Error: something went wrong.")
+            }
+        });
     }
 
 }
