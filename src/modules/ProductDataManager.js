@@ -57,6 +57,7 @@ export default {
                 "Authorization": token
             }
         }).then(response => {
+            
             if (response.ok) {
                 window.alert("Product image deleted!")
                 return response.json();
