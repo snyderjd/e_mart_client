@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button } from 'reactstrap';
+import { Button, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
 import ProductDataManager from '../../modules/ProductDataManager';
 import CategoryDataManager from '../../modules/CategoryDataManager';
 
@@ -37,31 +37,41 @@ class ProductForm extends Component {
         this.props.history.push("/products");
     }
 
-    // Takes user's inputs, builds a product object, then calls the function that saves the product to the DB
-    constructNewProduct = (event) => {
-
-        if (this.state.name === "" || 
-            this.state.description === "" || 
-            this.state.price === "" ||
-            this.state.quantity <= 0) {
-                alert("Please fill out all fields")
-            } else {
-                const newProduct = {
-                    product: {
-                        name: this.state.name,
-                        description: this.state.description,
-                        category_id: this.state.categoryId,
-                        price: this.state.price,
-                        quantity: this.state.quantity,
-                        is_active: this.state.isActive
-                    }
-                }
-
-                ProductDataManager.postProduct(newProduct).then(() => {
-                    this.props.history.push("/products");
-                });
-            }
+    handleSubmit = (event) => {
+        event.preventDefault();
+        
+        const productForm = new FormData(event.target);
+        
+        ProductDataManager.postProduct(productForm).then((product) => {
+            this.props.history.push(`/products/${product.id}`);
+        });
     }
+
+    // Takes user's inputs, builds a product object, then calls the function that saves the product to the DB
+    // constructNewProduct = (event) => {
+
+    //     if (this.state.name === "" || 
+    //         this.state.description === "" || 
+    //         this.state.price === "" ||
+    //         this.state.quantity <= 0) {
+    //             alert("Please fill out all fields")
+    //         } else {
+    //             const newProduct = {
+    //                 product: {
+    //                     name: this.state.name,
+    //                     description: this.state.description,
+    //                     category_id: this.state.categoryId,
+    //                     price: this.state.price,
+    //                     quantity: this.state.quantity,
+    //                     is_active: this.state.isActive
+    //                 }
+    //             }
+
+    //             ProductDataManager.postProduct(newProduct).then(() => {
+    //                 this.props.history.push("/products");
+    //             });
+    //         }
+    // }
 
     render() {
         console.log("ProductForm state", this.state);
@@ -70,88 +80,176 @@ class ProductForm extends Component {
             <div className="ProductForm--container">
                 <h1 className="ProductForm--heading">Add a New Product</h1>
                 <div className="ProductForm__form--container">
-                    <form className="ProductForm__form">
-                        <div className="ProductForm--inputPair">
-                            <label htmlFor="name">Name</label>
-                            <input onChange={this.handleFieldChange}
+                    <Form onSubmit={this.handleSubmit}>
+                        <FormGroup>
+                            <Label for="name">Name</Label>
+                            <Input 
                                 type="text"
                                 id="name"
-                                value={this.state.name}
                                 placeholder="Product name"
+                                name="name"    
                                 required
                                 autoFocus=""
-                                className="ProductForm--input"
-                            />  
-                        </div>
-                        <div className="ProductForm--inputPair">
-                            <label htmlFor="description">Description</label>
-                            <textarea onChange={this.handleFieldChange} 
-                                rows={4}
-                                cols={30}
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="description">Description</Label>
+                            <Input 
+                                type="textarea"
                                 id="description"
-                                value={this.state.description}
-                                placeholder="Product description"
+                                name="description"
                                 required
-                                className="ProductForm--input">
-                            </textarea>
-                        </div>
-                        <div className="ProductForm--inputPair">
-                            <label htmlFor="categoryId">Category</label>
-                            <select
-                                onChange={this.handleFieldChange}
-                                id="categoryId"
-                                value={this.state.categoryId}
-                                className="ProductForm--input"
-                            >
+                            />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="category_id">Category</Label>
+                            <Input type="select" name="category_id" id="category_id">
                                 {this.state.categories.map(category => 
                                     <option key={category.id} value={category.id}>
                                         {category.name}
                                     </option>    
                                 )}
-                            </select>
-                        </div>
-                        <div className="ProductForm--inputPair">
-                            <label htmlFor="price">Price</label>
-                            <input onChange={this.handleFieldChange} 
-                                type="text"
-                                id="price"
-                                value={this.state.price}
+                            </Input> 
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="price">Price</Label>
+                            <Input 
+                                type="text" 
+                                name="price" 
+                                id="price" 
                                 placeholder="ex: 19.99"
-                                required
-                                className="ProductForm--input"
-                            />
-                        </div>
-                        <div className="ProductForm--inputPair">
-                            <label htmlFor="quantity">Quantity</label>
-                            <input onChange={this.handleFieldChange} 
-                                type="number"
-                                id="quantity"
-                                value={this.state.quantity}
-                                className="ProductForm--input"
-                            />
-                        </div>
-                        <div className="ProductForm--inputPair">
-                            <label htmlFor="isActive">Status</label>
-                            <select
-                                id="isActive"
-                                value={this.state.isActive}
-                                onChange={this.handleFieldChange}
-                            >
+                                required />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="quantity">Quantity</Label>
+                            <Input 
+                                type="number" 
+                                name="quantity" 
+                                id="quantity" 
+                                required />
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="is_active">Status</Label>
+                            <Input type="select" name="is_active" id="is_active">
                                 <option value="true">Active</option>
                                 <option value="false">Inactive</option>
-                            </select>
-                        </div>
+                            </Input>
+                        </FormGroup>
+                        <FormGroup>
+                            <Label for="image">Image</Label>
+                            <Input type="file" accept="image/*" name="image" id="image" />
+                        </FormGroup>
                         <div className="ProductForm__buttons--container">
-                            <Button onClick={this.handleCancel} color="primary">
+                            <Button onClick={this.handleCancel} color="danger">
                                 Cancel
                             </Button>
-                            <Button onClick={this.constructNewProduct} color="primary">
+                            <Button type="submit" color="primary">
                                 Submit
                             </Button>
-                        </div>
-                    </form>
+                         </div>
+                    </Form>
                 </div>
             </div>
+            
+            // <div className="ProductForm--container">
+            //     <h1 className="ProductForm--heading">Add a New Product</h1>
+            //     <div className="ProductForm__form--container">
+            //         <form className="ProductForm__form">
+            //             <div className="ProductForm--inputPair">
+            //                 <label htmlFor="name">Name</label>
+            //                 <input onChange={this.handleFieldChange}
+            //                     type="text"
+            //                     id="name"
+            //                     value={this.state.name}
+            //                     placeholder="Product name"
+            //                     required
+            //                     autoFocus=""
+            //                     className="ProductForm--input"
+            //                     name="name"
+            //                 />  
+            //             </div>
+            //             <div className="ProductForm--inputPair">
+            //                 <label htmlFor="description">Description</label>
+            //                 <textarea onChange={this.handleFieldChange} 
+            //                     rows={4}
+            //                     cols={30}
+            //                     id="description"
+            //                     value={this.state.description}
+            //                     placeholder="Product description"
+            //                     required
+            //                     className="ProductForm--input"
+            //                     name="description">
+            //                 </textarea>
+            //             </div>
+            //             <div className="ProductForm--inputPair">
+            //                 <label htmlFor="categoryId">Category</label>
+            //                 <select
+            //                     onChange={this.handleFieldChange}
+            //                     id="categoryId"
+            //                     value={this.state.categoryId}
+            //                     className="ProductForm--input"
+            //                     name="category_id"
+            //                 >
+            //                     {this.state.categories.map(category => 
+            //                         <option key={category.id} value={category.id}>
+            //                             {category.name}
+            //                         </option>    
+            //                     )}
+            //                 </select>
+            //             </div>
+            //             <div className="ProductForm--inputPair">
+            //                 <label htmlFor="price">Price</label>
+            //                 <input onChange={this.handleFieldChange} 
+            //                     type="text"
+            //                     id="price"
+            //                     value={this.state.price}
+            //                     placeholder="ex: 19.99"
+            //                     required
+            //                     className="ProductForm--input"
+            //                     name="price"
+            //                 />
+            //             </div>
+            //             <div className="ProductForm--inputPair">
+            //                 <label htmlFor="quantity">Quantity</label>
+            //                 <input onChange={this.handleFieldChange} 
+            //                     type="number"
+            //                     id="quantity"
+            //                     value={this.state.quantity}
+            //                     className="ProductForm--input"
+            //                     name="quantity"
+            //                 />
+            //             </div>
+            //             <div className="ProductForm--inputPair">
+            //                 <label htmlFor="isActive">Status</label>
+            //                 <select
+            //                     id="isActive"
+            //                     value={this.state.isActive}
+            //                     onChange={this.handleFieldChange}
+            //                     name="is_active"
+            //                 >
+            //                     <option value="true">Active</option>
+            //                     <option value="false">Inactive</option>
+            //                 </select>
+            //             </div>
+            //             <div className="ProductForm--inputPair">
+            //                 <label htmlFor="image">Upload Image</label>
+            //                 <input 
+            //                     type="file"  
+            //                     accept="image/*"
+            //                     className="ProductForm--input"
+            //                     name="image"/>
+            //             </div>
+            //             <div className="ProductForm__buttons--container">
+            //                 <Button onClick={this.handleCancel} color="primary">
+            //                     Cancel
+            //                 </Button>
+            //                 <Button onClick={this.constructNewProduct} color="primary">
+            //                     <input type="submit" value="Submit"/>
+            //                 </Button>
+            //             </div>
+            //         </form>
+            //     </div>
+            // </div>
         )
     }
 

@@ -45,6 +45,13 @@ class ProductCard extends Component {
             <div className="ProductCard__container">
                 <div className="ProductCard__body">
                     <h3 className="ProductCard-heading">{this.props.product.name}</h3>
+                    {this.props.product.image_url !== "No image" &&
+                        <img alt="Product image" src={this.props.product.image_url}
+                            height="200"
+                            width="200"
+                        >
+                        </img>
+                    }
                     <p>Description: {this.props.product.description}</p>
                     <p>Category: {this.props.product.category.name}</p>
                     <p>Price: ${this.props.product.price}</p>

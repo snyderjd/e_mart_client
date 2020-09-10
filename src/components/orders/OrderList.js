@@ -56,6 +56,7 @@ class OrderList extends Component {
               <table className="Cart__products--table table">
                 <thead>
                   <tr>
+                    <th>Image</th>
                     <th>Product</th>
                     <th>Description</th>
                     <th>Cost</th>
@@ -64,6 +65,15 @@ class OrderList extends Component {
                 <tbody>
                   {order.products.map(product =>
                     <tr>
+                      <td>
+                        {product.image_url !== "No image" &&
+                          <img alt="Product image" src={product.image_url}
+                              height="80"
+                              width="80"
+                          >
+                          </img>
+                        }
+                      </td>
                       <td>{product.name}</td>
                       <td>{product.description.slice(0, 50)}...</td>
                       <td>$ {product.price}</td>

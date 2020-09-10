@@ -13,32 +13,58 @@ export default {
             .then(response => response.json());
     },
 
-    postProduct(newProduct) {
+    postProduct(productForm) {
         const cookies = new Cookies();
         const token = cookies.get('token');
 
-        return fetch(`${apiUrl}/products`, {
+        const config = {
             method: "POST",
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": token
+                "Authorization": token,
+                "Accept": "application/json"
             },
-            body: JSON.stringify(newProduct)
-        }).then(response => response.json());
+            body: productForm
+        }
+
+        return fetch(`${apiUrl}/products`, config)
+            .then(response => response.json());
     },
 
-    updateProduct(product) {
+    updateProduct(productForm, productId) {
         const cookies = new Cookies();
         const token = cookies.get('token');
 
-        return fetch(`${apiUrl}/products/${product.product.id}`, {
+        const config = {
             method: "PUT",
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": token
+                "Authorization": token,
+                "Accept": "application/json"
             },
-            body: JSON.stringify(product)           
-        }).then(response => response.json());
+            body: productForm
+        }
+
+        return fetch(`${apiUrl}/products/${productId}`, config)
+            .then(response => response.json());
+    },
+
+    deleteProductImage(productId) {
+        const cookies = new Cookies();
+        const token = cookies.get('token');
+
+        return fetch(`${apiUrl}/products/${productId}/image`, {
+            method: "DELETE",
+            headers: {
+                "Authorization": token
+            }
+        }).then(response => {
+            
+            if (response.ok) {
+                window.alert("Product image deleted!")
+                return response.json();
+            } else {
+                window.alert("Error: something went wrong.")
+            }
+        });
     }
 
 }
