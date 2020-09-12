@@ -13,6 +13,11 @@ export default {
             .then(response => response.json());
     },
 
+    searchProducts(searchInput) {
+        return fetch(`${apiUrl}/products?q=${searchInput}`)
+            .then(response => response.json());
+    },
+
     postProduct(productForm) {
         const cookies = new Cookies();
         const token = cookies.get('token');

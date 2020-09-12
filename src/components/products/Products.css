@@ -48,3 +48,7 @@
     justify-content: space-evenly;
     margin: 10px;
 }
+
+.AddProduct__button {
+    margin: 20px;
+}
