@@ -5,6 +5,7 @@ import './Products.css'
 import Cookies from 'universal-cookie';
 import UserDataManager from '../../modules/UserDataManager';
 import { Button } from 'reactstrap';
+import ProductSearch from './ProductSearch';
 
 class ProductList extends Component {
     constructor(props) {
@@ -33,15 +34,16 @@ class ProductList extends Component {
 
     }
 
-    // addProduct = (newProduct) => {
-    //     return ProductDataManager.postProduct(newProduct).then(() => {
-
-    //     })
-    // }
+    executeProductSearch = (searchInput) => {
+        ProductDataManager.searchProducts(searchInput).then(products => {
+            this.setState({ products: products });
+        });
+    }
 
     renderAddProductButton() {
         if (this.state.currentUser.role === "admin") {
-            return <Button 
+            return <Button
+                        className="AddProduct__button" 
                         onClick={() => this.props.history.push("/products/create")} 
                         color="primary">
                         Add Product
@@ -54,8 +56,11 @@ class ProductList extends Component {
         return (
             <React.Fragment>
                 <div className="ProductList-container">
-                    <h1>All Products</h1>
+                    <h1>Products</h1>
                     {this.renderAddProductButton()}
+                    <ProductSearch 
+                        executeProductSearch={this.executeProductSearch}
+                    />
                     <div className="products-container">
                         {this.state.products.map(product => 
                             <ProductCard 

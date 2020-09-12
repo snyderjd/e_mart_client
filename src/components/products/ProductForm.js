@@ -45,33 +45,7 @@ class ProductForm extends Component {
         ProductDataManager.postProduct(productForm).then((product) => {
             this.props.history.push(`/products/${product.id}`);
         });
-    }
-
-    // Takes user's inputs, builds a product object, then calls the function that saves the product to the DB
-    // constructNewProduct = (event) => {
-
-    //     if (this.state.name === "" || 
-    //         this.state.description === "" || 
-    //         this.state.price === "" ||
-    //         this.state.quantity <= 0) {
-    //             alert("Please fill out all fields")
-    //         } else {
-    //             const newProduct = {
-    //                 product: {
-    //                     name: this.state.name,
-    //                     description: this.state.description,
-    //                     category_id: this.state.categoryId,
-    //                     price: this.state.price,
-    //                     quantity: this.state.quantity,
-    //                     is_active: this.state.isActive
-    //                 }
-    //             }
-
-    //             ProductDataManager.postProduct(newProduct).then(() => {
-    //                 this.props.history.push("/products");
-    //             });
-    //         }
-    // }
+    } 
 
     render() {
         console.log("ProductForm state", this.state);
