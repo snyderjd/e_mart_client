@@ -52,3 +52,21 @@
 .AddProduct__button {
     margin: 20px;
 }
+
+.ProductFilter__container {
+    margin: 10px;
+    text-align: right;
+}
+
+.ProductFilter__inputGroup {
+    display: flex;
+    width: 100%;
+}
+
+.ProductFilter__label {
+    margin-right: 10px;
+}
+
+.ProductFilter__input {
+    width: 30% !important;
+}

@@ -6,6 +6,7 @@ import Cookies from 'universal-cookie';
 import UserDataManager from '../../modules/UserDataManager';
 import { Button } from 'reactstrap';
 import ProductSearch from './ProductSearch';
+import ProductFilter from './ProductFilter';
 
 class ProductList extends Component {
     constructor(props) {
@@ -61,6 +62,7 @@ class ProductList extends Component {
                     <ProductSearch 
                         executeProductSearch={this.executeProductSearch}
                     />
+                    <ProductFilter />
                     <div className="products-container">
                         {this.state.products.map(product => 
                             <ProductCard 

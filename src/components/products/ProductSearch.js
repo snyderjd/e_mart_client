@@ -51,14 +51,5 @@ class ProductSearch extends Component {
 
 export default ProductSearch;
 
-// import { InputGroup, InputGroupAddon, Button, Input } from 'reactstrap';
-
-
-{/* <InputGroup>
-  <Input />
-    <InputGroupAddon addonType="append">
-    <Button color="secondary">To the Right!</Button>
-    </InputGroupAddon>
-</InputGroup> */}
 
     
