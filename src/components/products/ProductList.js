@@ -7,13 +7,17 @@ import UserDataManager from '../../modules/UserDataManager';
 import { Button } from 'reactstrap';
 import ProductSearch from './ProductSearch';
 import ProductFilter from './ProductFilter';
+import ProductSort from './ProductSort';
 
 class ProductList extends Component {
     constructor(props) {
         super(props);
         this.state = {
             products: [],
-            currentUser: {}
+            currentUser: {},
+            searchInput: "",
+            filterInput: "",
+            sortInput: ""
         };
     }
 
@@ -36,14 +40,17 @@ class ProductList extends Component {
     }
 
     executeProductSearch = (searchInput) => {
+        this.setState({ searchInput: searchInput });
+
         ProductDataManager.searchProducts(searchInput).then(products => {
             this.setState({ products: products });
         });
     }
 
     executeProductFilter = (categoryId) => {
-        // If categoryId passed in is an id, invoke API call to get products by categoryId, otherwise invoke API call to get all products
+        this.setState({ filterInput: categoryId });
 
+        // If categoryId passed in is an id, invoke API call to get products by categoryId, otherwise invoke API call to get all products
         if (categoryId === "all_categories") {
             ProductDataManager.getAllProducts()
                 .then(products => {
@@ -56,6 +63,12 @@ class ProductList extends Component {
                 })
         }
 
+    }
+
+    executeProductSort = (sortInput) => {
+        this.setState({ sortInput: sortInput });
+
+        
     }
 
     renderAddProductButton() {
@@ -79,9 +92,12 @@ class ProductList extends Component {
                     <ProductSearch 
                         executeProductSearch={this.executeProductSearch}
                     />
-                    <ProductFilter 
-                        executeProductFilter={this.executeProductFilter}
-                    />
+                    <div className="ProductList__sort-filter-container">
+                        <ProductFilter 
+                            executeProductFilter={this.executeProductFilter}
+                        />
+                        <ProductSort />
+                    </div>
                     <div className="products-container">
                         {this.state.products.map(product => 
                             <ProductCard 

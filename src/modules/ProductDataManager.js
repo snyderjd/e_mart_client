@@ -8,6 +8,30 @@ export default {
             .then(response => response.json());
     },
 
+    getProducts(searchInput, filterInput, sortInput) {
+        // Cases
+        // - no searchInput, no filterInput, no sortInput
+        // - searchInput, no filterInput, no sortInput
+        // - searchInput, filterInput, no SortInput
+        // - searchInput, filterInput, sortInput
+        
+    },
+
+    buildRequestUrl(searchInput, filterInput, sortInput) {
+        // Build request url to get products based on values of the search, filter, and sort params
+
+        // Cases
+        // no searchInput, no filterInput, no sortInput - none
+        // searchInput, filterInput, sortInput - all
+        // searchInput
+        // filterInput
+        // sortInput
+        // searchInput and filterInput
+        // searchInput and sortInput
+        // filterInput and sortInput
+        
+    },
+
     getSingleProduct(id) {
         return fetch(`${apiUrl}/products/${id}`)
             .then(response => response.json());

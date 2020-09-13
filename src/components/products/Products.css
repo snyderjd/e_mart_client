@@ -53,20 +53,28 @@
     margin: 20px;
 }
 
-.ProductFilter__container {
+.ProductFilter__container,
+.ProductSort__container {
+    width: 40%;
     margin: 10px;
     text-align: right;
 }
 
-.ProductFilter__inputGroup {
+.ProductFilter__inputGroup,
+.ProductSort__inputGroup {
     display: flex;
-    width: 100%;
+    width: 100% !important;
 }
 
-.ProductFilter__label {
+.ProductFilter__label,
+.ProductSort__label {
     margin-right: 10px;
+    width: 40%;
+    white-space: nowrap;
+    padding: 5px 0;
 }
 
-.ProductFilter__input {
-    width: 30% !important;
+.ProductList__sort-filter-container {
+    display: flex;
+    justify-content: space-evenly;
 }
