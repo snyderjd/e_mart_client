@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { InputGroup, InputGroupAddon, Button, Input } from 'reactstrap';
-
 import './Products.css';
 
 class ProductSearch extends Component {
@@ -27,8 +26,6 @@ class ProductSearch extends Component {
   }
 
   render() {
-    console.log("ProductSearch state", this.state);
-
     return (
       <div className="ProductSearch__container">
         <InputGroup>
@@ -50,6 +47,3 @@ class ProductSearch extends Component {
 }
 
 export default ProductSearch;
-
-
-    

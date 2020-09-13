@@ -30,7 +30,6 @@ class CheckoutModal extends Component {
 
   // Make user confirm that they really want to check out
   render() {
-    console.log("CheckoutModal props", this.props);
     return (
       <>
         <Button onClick={this.toggle} color="primary">Check Out</Button>
