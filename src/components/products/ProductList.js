@@ -6,6 +6,7 @@ import Cookies from 'universal-cookie';
 import UserDataManager from '../../modules/UserDataManager';
 import { Button } from 'reactstrap';
 import ProductSearch from './ProductSearch';
+import ProductFilter from './ProductFilter';
 
 class ProductList extends Component {
     constructor(props) {
@@ -40,6 +41,23 @@ class ProductList extends Component {
         });
     }
 
+    executeProductFilter = (categoryId) => {
+        // If categoryId passed in is an id, invoke API call to get products by categoryId, otherwise invoke API call to get all products
+
+        if (categoryId === "all_categories") {
+            ProductDataManager.getAllProducts()
+                .then(products => {
+                    this.setState({ products: products });
+                });
+        } else {
+            ProductDataManager.getFilteredProducts(categoryId)
+                .then(products => {
+                    this.setState({ products: products })
+                })
+        }
+
+    }
+
     renderAddProductButton() {
         if (this.state.currentUser.role === "admin") {
             return <Button
@@ -60,6 +78,9 @@ class ProductList extends Component {
                     {this.renderAddProductButton()}
                     <ProductSearch 
                         executeProductSearch={this.executeProductSearch}
+                    />
+                    <ProductFilter 
+                        executeProductFilter={this.executeProductFilter}
                     />
                     <div className="products-container">
                         {this.state.products.map(product => 

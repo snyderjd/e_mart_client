@@ -18,6 +18,11 @@ export default {
             .then(response => response.json());
     },
 
+    getFilteredProducts(categoryId) {
+        return fetch(`${apiUrl}/products?category_id=${categoryId}`)
+            .then(response => response.json());
+    },
+
     postProduct(productForm) {
         const cookies = new Cookies();
         const token = cookies.get('token');

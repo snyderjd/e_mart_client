@@ -67,7 +67,6 @@ class Cart extends Component {
   }
 
   render() {
-    console.log("Cart state", this.state);
     return (
       <div className="Cart__container">
         <h1>Cart</h1>
