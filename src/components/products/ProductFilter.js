@@ -36,7 +36,7 @@ class ProductFilter extends Component {
             name="category_id" 
             id="category_id"
             onChange={this.handleFilter}>
-            <option value="all_categories">All Categories</option>
+            <option value="">All Categories</option>
             {this.state.categories.map(category => 
               <option key={category.id} value={category.id}>{category.name}</option>  
             )}

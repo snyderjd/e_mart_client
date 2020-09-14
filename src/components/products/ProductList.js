@@ -12,6 +12,7 @@ import ProductSort from './ProductSort';
 class ProductList extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             products: [],
             currentUser: {},
@@ -19,6 +20,10 @@ class ProductList extends Component {
             filterInput: "",
             sortInput: ""
         };
+
+        // this.toggle = this.toggle.bind(this);
+        // this.executeProductSearch = this.executeProductSearch.bind(this);
+        this.setState = this.setState.bind(this);
     }
 
     componentDidMount() {
@@ -39,29 +44,53 @@ class ProductList extends Component {
 
     }
 
+    // handleFieldChange = (event) => {
+    //     const newState = {};
+    //     newState[event.target.id] = event.target.value;
+    //     this.setState(newState);
+    // }
+
     executeProductSearch = (searchInput) => {
         this.setState({ searchInput: searchInput });
 
-        ProductDataManager.searchProducts(searchInput).then(products => {
-            this.setState({ products: products });
-        });
+        console.log("executeProductSearch:", this.state);
+
+        ProductDataManager.getProducts(this.state.searchInput, this.state.filterInput, this.state.sortInput)
+            .then(products => {
+                this.setState({ products: products });
+            });
+
+        // ProductDataManager.searchProducts(searchInput).then(products => {
+        //     this.setState({ products: products });
+        // });
+
+        // Reset searchInput value
+        this.setState({ searchInput: "" });
     }
 
     executeProductFilter = (categoryId) => {
         this.setState({ filterInput: categoryId });
 
+        ProductDataManager.getProducts(this.state.searchInput, this.state.filterInput, this.state.sortInput)
+            .then(products => {
+                this.setState({ products: products });
+            });
+
+        // Reset filterInput value
+        this.setState({ filterInput: "" });
+
         // If categoryId passed in is an id, invoke API call to get products by categoryId, otherwise invoke API call to get all products
-        if (categoryId === "all_categories") {
-            ProductDataManager.getAllProducts()
-                .then(products => {
-                    this.setState({ products: products });
-                });
-        } else {
-            ProductDataManager.getFilteredProducts(categoryId)
-                .then(products => {
-                    this.setState({ products: products })
-                })
-        }
+        // if (categoryId === "all_categories") {
+        //     ProductDataManager.getAllProducts()
+        //         .then(products => {
+        //             this.setState({ products: products });
+        //         });
+        // } else {
+        //     ProductDataManager.getFilteredProducts(categoryId)
+        //         .then(products => {
+        //             this.setState({ products: products })
+        //         })
+        // }
 
     }
 
@@ -91,10 +120,12 @@ class ProductList extends Component {
                     {this.renderAddProductButton()}
                     <ProductSearch 
                         executeProductSearch={this.executeProductSearch}
+                        filterInput={this.state.filterInput}
                     />
                     <div className="ProductList__sort-filter-container">
                         <ProductFilter 
                             executeProductFilter={this.executeProductFilter}
+                            searchInput={this.state.searchInput}
                         />
                         <ProductSort />
                     </div>
