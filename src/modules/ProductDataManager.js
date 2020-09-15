@@ -121,7 +121,6 @@ export default {
 
         }
         
-        console.log("requestUrl", requestUrl);
         return requestUrl;
     }
 

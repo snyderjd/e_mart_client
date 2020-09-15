@@ -21,9 +21,9 @@ class ProductList extends Component {
             sortInput: ""
         };
 
-        // this.toggle = this.toggle.bind(this);
-        // this.executeProductSearch = this.executeProductSearch.bind(this);
-        this.setState = this.setState.bind(this);
+        this.executeProductSearch = this.executeProductSearch.bind(this);
+        this.executeProductFilter = this.executeProductFilter.bind(this);
+        this.executeProductSort = this.executeProductSort.bind(this);
     }
 
     componentDidMount() {
@@ -44,60 +44,31 @@ class ProductList extends Component {
 
     }
 
-    // handleFieldChange = (event) => {
-    //     const newState = {};
-    //     newState[event.target.id] = event.target.value;
-    //     this.setState(newState);
-    // }
-
-    executeProductSearch = (searchInput) => {
-        this.setState({ searchInput: searchInput });
-
-        console.log("executeProductSearch:", this.state);
+    async executeProductSearch(searchInput) {
+        await this.setState({ searchInput });
 
         ProductDataManager.getProducts(this.state.searchInput, this.state.filterInput, this.state.sortInput)
             .then(products => {
-                this.setState({ products: products });
+                this.setState({ products });
             });
-
-        // ProductDataManager.searchProducts(searchInput).then(products => {
-        //     this.setState({ products: products });
-        // });
-
-        // Reset searchInput value
-        this.setState({ searchInput: "" });
     }
 
-    executeProductFilter = (categoryId) => {
-        this.setState({ filterInput: categoryId });
+    async executeProductFilter(categoryId) {
+        await this.setState({ filterInput: categoryId });
 
         ProductDataManager.getProducts(this.state.searchInput, this.state.filterInput, this.state.sortInput)
             .then(products => {
-                this.setState({ products: products });
+                this.setState({ products });
             });
-
-        // Reset filterInput value
-        this.setState({ filterInput: "" });
-
-        // If categoryId passed in is an id, invoke API call to get products by categoryId, otherwise invoke API call to get all products
-        // if (categoryId === "all_categories") {
-        //     ProductDataManager.getAllProducts()
-        //         .then(products => {
-        //             this.setState({ products: products });
-        //         });
-        // } else {
-        //     ProductDataManager.getFilteredProducts(categoryId)
-        //         .then(products => {
-        //             this.setState({ products: products })
-        //         })
-        // }
-
     }
 
-    executeProductSort = (sortInput) => {
-        this.setState({ sortInput: sortInput });
+    async executeProductSort(sortInput) {
+        await this.setState({ sortInput: sortInput });
 
-        
+        ProductDataManager.getProducts(this.state.searchInput, this.state.filterInput, this.state.sortInput)
+            .then(products => {
+                this.setState({ products });
+            });
     }
 
     renderAddProductButton() {
@@ -112,7 +83,6 @@ class ProductList extends Component {
     }
 
     render() {
-        console.log("ProductList state", this.state);
         return (
             <React.Fragment>
                 <div className="ProductList-container">
@@ -120,14 +90,14 @@ class ProductList extends Component {
                     {this.renderAddProductButton()}
                     <ProductSearch 
                         executeProductSearch={this.executeProductSearch}
-                        filterInput={this.state.filterInput}
                     />
                     <div className="ProductList__sort-filter-container">
                         <ProductFilter 
                             executeProductFilter={this.executeProductFilter}
-                            searchInput={this.state.searchInput}
                         />
-                        <ProductSort />
+                        <ProductSort 
+                            executeProductSort={this.executeProductSort}
+                        />
                     </div>
                     <div className="products-container">
                         {this.state.products.map(product => 
