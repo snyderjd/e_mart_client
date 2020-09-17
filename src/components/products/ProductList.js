@@ -7,14 +7,23 @@ import UserDataManager from '../../modules/UserDataManager';
 import { Button } from 'reactstrap';
 import ProductSearch from './ProductSearch';
 import ProductFilter from './ProductFilter';
+import ProductSort from './ProductSort';
 
 class ProductList extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             products: [],
-            currentUser: {}
+            currentUser: {},
+            searchInput: "",
+            filterInput: "",
+            sortInput: ""
         };
+
+        this.executeProductSearch = this.executeProductSearch.bind(this);
+        this.executeProductFilter = this.executeProductFilter.bind(this);
+        this.executeProductSort = this.executeProductSort.bind(this);
     }
 
     componentDidMount() {
@@ -35,27 +44,31 @@ class ProductList extends Component {
 
     }
 
-    executeProductSearch = (searchInput) => {
-        ProductDataManager.searchProducts(searchInput).then(products => {
-            this.setState({ products: products });
-        });
+    async executeProductSearch(searchInput) {
+        await this.setState({ searchInput });
+
+        ProductDataManager.getProducts(this.state.searchInput, this.state.filterInput, this.state.sortInput)
+            .then(products => {
+                this.setState({ products });
+            });
     }
 
-    executeProductFilter = (categoryId) => {
-        // If categoryId passed in is an id, invoke API call to get products by categoryId, otherwise invoke API call to get all products
+    async executeProductFilter(categoryId) {
+        await this.setState({ filterInput: categoryId });
 
-        if (categoryId === "all_categories") {
-            ProductDataManager.getAllProducts()
-                .then(products => {
-                    this.setState({ products: products });
-                });
-        } else {
-            ProductDataManager.getFilteredProducts(categoryId)
-                .then(products => {
-                    this.setState({ products: products })
-                })
-        }
+        ProductDataManager.getProducts(this.state.searchInput, this.state.filterInput, this.state.sortInput)
+            .then(products => {
+                this.setState({ products });
+            });
+    }
 
+    async executeProductSort(sortInput) {
+        await this.setState({ sortInput: sortInput });
+
+        ProductDataManager.getProducts(this.state.searchInput, this.state.filterInput, this.state.sortInput)
+            .then(products => {
+                this.setState({ products });
+            });
     }
 
     renderAddProductButton() {
@@ -70,7 +83,6 @@ class ProductList extends Component {
     }
 
     render() {
-        console.log("ProductList state", this.state);
         return (
             <React.Fragment>
                 <div className="ProductList-container">
@@ -79,9 +91,14 @@ class ProductList extends Component {
                     <ProductSearch 
                         executeProductSearch={this.executeProductSearch}
                     />
-                    <ProductFilter 
-                        executeProductFilter={this.executeProductFilter}
-                    />
+                    <div className="ProductList__sort-filter-container">
+                        <ProductFilter 
+                            executeProductFilter={this.executeProductFilter}
+                        />
+                        <ProductSort 
+                            executeProductSort={this.executeProductSort}
+                        />
+                    </div>
                     <div className="products-container">
                         {this.state.products.map(product => 
                             <ProductCard 
