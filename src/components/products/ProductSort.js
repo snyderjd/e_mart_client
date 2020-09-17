@@ -25,6 +25,7 @@ class ProductSort extends Component {
             <option value="default">Default</option>
             <option value="price_ascending">Price: Low to High</option>
             <option value="price_descending">Price: High to Low</option>
+            <option value="a_to_z">Name: A - Z</option>
           </Input>
         </div>
       </div>
