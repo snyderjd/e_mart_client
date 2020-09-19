@@ -4,7 +4,7 @@ import ProductCard from './ProductCard';
 import './Products.css'
 import Cookies from 'universal-cookie';
 import UserDataManager from '../../modules/UserDataManager';
-import { Button } from 'reactstrap';
+import { Button, Pagination, PaginationItem, PaginationLink } from 'reactstrap';
 import ProductSearch from './ProductSearch';
 import ProductFilter from './ProductFilter';
 import ProductSort from './ProductSort';
@@ -18,17 +18,20 @@ class ProductList extends Component {
             currentUser: {},
             searchInput: "",
             filterInput: "",
-            sortInput: ""
+            sortInput: "",
+            page: 1
         };
 
         this.executeProductSearch = this.executeProductSearch.bind(this);
         this.executeProductFilter = this.executeProductFilter.bind(this);
         this.executeProductSort = this.executeProductSort.bind(this);
+        this.handleNextPage = this.handleNextPage.bind(this);
+        this.handlePreviousPage = this.handlePreviousPage.bind(this);
     }
 
     componentDidMount() {
         // Get all products and put in state
-        ProductDataManager.getAllProducts().then(products => {
+        ProductDataManager.getAllProducts(this.state.page).then(products => {
             this.setState({ products: products })
         });
 
@@ -47,7 +50,11 @@ class ProductList extends Component {
     async executeProductSearch(searchInput) {
         await this.setState({ searchInput });
 
-        ProductDataManager.getProducts(this.state.searchInput, this.state.filterInput, this.state.sortInput)
+        ProductDataManager.getProducts(
+            this.state.searchInput, 
+            this.state.filterInput, 
+            this.state.sortInput,
+            this.state.page)
             .then(products => {
                 this.setState({ products });
             });
@@ -56,7 +63,11 @@ class ProductList extends Component {
     async executeProductFilter(categoryId) {
         await this.setState({ filterInput: categoryId });
 
-        ProductDataManager.getProducts(this.state.searchInput, this.state.filterInput, this.state.sortInput)
+        ProductDataManager.getProducts(
+            this.state.searchInput, 
+            this.state.filterInput, 
+            this.state.sortInput,
+            this.state.page)
             .then(products => {
                 this.setState({ products });
             });
@@ -65,10 +76,53 @@ class ProductList extends Component {
     async executeProductSort(sortInput) {
         await this.setState({ sortInput: sortInput });
 
-        ProductDataManager.getProducts(this.state.searchInput, this.state.filterInput, this.state.sortInput)
-            .then(products => {
-                this.setState({ products });
-            });
+        ProductDataManager.getProducts(
+            this.state.searchInput, 
+            this.state.filterInput, 
+            this.state.sortInput,
+            this.state.page
+        )
+        .then(products => {
+            this.setState({ products });
+        });
+    }
+
+    async handleNextPage(event) {
+        event.preventDefault();
+
+        // Increment page value and then get products with the new page value
+        await this.setState(prevState => {
+            return { page: prevState.page + 1 };
+        });
+
+        ProductDataManager.getProducts(
+            this.state.searchInput,
+            this.state.filterInput,
+            this.state.sortInput,
+            this.state.page
+        )
+        .then(products => {
+            this.setState({ products });
+        });
+    }
+
+    async handlePreviousPage(event) {
+        event.preventDefault();
+
+        // Decrement page value and then get products with the new page value
+        await this.setState(prevState => {
+            return { page: prevState.page - 1 };
+        });
+
+        ProductDataManager.getProducts(
+            this.state.searchInput,
+            this.state.filterInput,
+            this.state.sortInput,
+            this.state.page
+        )
+        .then(products => {
+            this.setState({ products });
+        });
     }
 
     renderAddProductButton() {
@@ -109,6 +163,21 @@ class ProductList extends Component {
                             />    
                         )}
                     </div>
+                    
+                    <Pagination className="ProductList__pagination--container ">
+                        {/* <PaginationItem>
+                            <PaginationLink first />
+                        </PaginationItem> */}
+                        <PaginationItem>
+                            <PaginationLink previous onClick={this.handlePreviousPage} />
+                        </PaginationItem>
+                        <PaginationItem>
+                            <PaginationLink next onClick={this.handleNextPage} />
+                        </PaginationItem>
+                        {/* <PaginationItem>
+                            <PaginationLink last />
+                        </PaginationItem> */}
+                    </Pagination>
                     
                 </div>
             </React.Fragment>

@@ -3,6 +3,7 @@
 .ProductList-container {
     width: 90%;
     margin: auto;
+    margin-bottom: 20px;
 }
 
 .products-container {
@@ -77,4 +78,14 @@
 .ProductList__sort-filter-container {
     display: flex;
     justify-content: space-evenly;
+}
+
+.ProductList__pagination--container {
+    margin: auto;
+    width: 50%;
+}
+
+.pagination {
+    justify-content: center;
+    margin: auto;
 }
