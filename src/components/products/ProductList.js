@@ -31,8 +31,9 @@ class ProductList extends Component {
 
     componentDidMount() {
         // Get all products and put in state
-        ProductDataManager.getAllProducts(this.state.page).then(products => {
-            this.setState({ products: products })
+        ProductDataManager.getAllProducts(this.state.page).then(response => {
+            console.log("response", response);
+            this.setState({ products: response.products })
         });
 
         // If there is already a token in cookies, use it to get the current user and store in state
@@ -48,33 +49,33 @@ class ProductList extends Component {
     }
 
     async executeProductSearch(searchInput) {
-        await this.setState({ searchInput });
+        await this.setState({ searchInput: searchInput, page: 1 });
 
         ProductDataManager.getProducts(
             this.state.searchInput, 
             this.state.filterInput, 
             this.state.sortInput,
             this.state.page)
-            .then(products => {
-                this.setState({ products });
+            .then(response => {
+                this.setState({ products: response.products });
             });
     }
 
     async executeProductFilter(categoryId) {
-        await this.setState({ filterInput: categoryId });
+        await this.setState({ filterInput: categoryId, page: 1 });
 
         ProductDataManager.getProducts(
             this.state.searchInput, 
             this.state.filterInput, 
             this.state.sortInput,
             this.state.page)
-            .then(products => {
-                this.setState({ products });
+            .then(response => {
+                this.setState({ products: response.products });
             });
     }
 
     async executeProductSort(sortInput) {
-        await this.setState({ sortInput: sortInput });
+        await this.setState({ sortInput: sortInput, page: 1 });
 
         ProductDataManager.getProducts(
             this.state.searchInput, 
@@ -82,8 +83,8 @@ class ProductList extends Component {
             this.state.sortInput,
             this.state.page
         )
-        .then(products => {
-            this.setState({ products });
+        .then(response => {
+            this.setState({ products: response.products });
         });
     }
 
@@ -101,8 +102,8 @@ class ProductList extends Component {
             this.state.sortInput,
             this.state.page
         )
-        .then(products => {
-            this.setState({ products });
+        .then(response => {
+            this.setState({ products: response.products });
         });
     }
 
@@ -120,8 +121,8 @@ class ProductList extends Component {
             this.state.sortInput,
             this.state.page
         )
-        .then(products => {
-            this.setState({ products });
+        .then(response => {
+            this.setState({ products: response.products });
         });
     }
 
@@ -137,6 +138,7 @@ class ProductList extends Component {
     }
 
     render() {
+        console.log("ProductList state", this.state);
         return (
             <React.Fragment>
                 <div className="ProductList-container">
