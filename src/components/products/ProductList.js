@@ -19,7 +19,8 @@ class ProductList extends Component {
             searchInput: "",
             filterInput: "",
             sortInput: "",
-            page: 1
+            page: 1,
+            resultsPerPage: 5
         };
 
         this.executeProductSearch = this.executeProductSearch.bind(this);
@@ -32,7 +33,6 @@ class ProductList extends Component {
     componentDidMount() {
         // Get all products and put in state
         ProductDataManager.getAllProducts(this.state.page).then(response => {
-            console.log("response", response);
             this.setState({ products: response.products })
         });
 
@@ -110,20 +110,23 @@ class ProductList extends Component {
     async handlePreviousPage(event) {
         event.preventDefault();
 
-        // Decrement page value and then get products with the new page value
-        await this.setState(prevState => {
-            return { page: prevState.page - 1 };
-        });
+        // If current page !== 1, decrement page value and then get products with the new page value
+        if (this.state.page !== 1) {
+            await this.setState(prevState => {
+                return { page: prevState.page - 1 };
+            });
 
-        ProductDataManager.getProducts(
-            this.state.searchInput,
-            this.state.filterInput,
-            this.state.sortInput,
-            this.state.page
-        )
-        .then(response => {
-            this.setState({ products: response.products });
-        });
+            ProductDataManager.getProducts(
+                this.state.searchInput,
+                this.state.filterInput,
+                this.state.sortInput,
+                this.state.page
+            )
+            .then(response => {
+                this.setState({ products: response.products });
+            });
+        }
+        
     }
 
     renderAddProductButton() {
@@ -138,7 +141,6 @@ class ProductList extends Component {
     }
 
     render() {
-        console.log("ProductList state", this.state);
         return (
             <React.Fragment>
                 <div className="ProductList-container">

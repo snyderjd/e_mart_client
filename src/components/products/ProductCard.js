@@ -41,7 +41,6 @@ class ProductCard extends Component {
     
     // Render a product, showing it's basic information on the ProductList component
     render() {
-        console.log("ProductCard props", this.props);
         return (
             <div className="ProductCard__container">
                 <div className="ProductCard__body">
