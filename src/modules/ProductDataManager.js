@@ -3,13 +3,13 @@ import Cookies from 'universal-cookie';
 const apiUrl = "http://localhost:3000/api";
 
 export default {
-    getAllProducts() {
-        return fetch(`${apiUrl}/products`)
+    getAllProducts(page) {
+        return fetch(`${apiUrl}/products?page=${page}`)
             .then(response => response.json());
     },
 
-    getProducts(searchInput, filterInput, sortInput) {
-        const requestUrl = this.buildRequestUrl(searchInput, filterInput, sortInput);
+    getProducts(searchInput, filterInput, sortInput, page) {
+        const requestUrl = this.buildRequestUrl(searchInput, filterInput, sortInput, page);
 
         return fetch(requestUrl).then(response => response.json());
     },
@@ -84,41 +84,40 @@ export default {
     },
 
     // Takes in search, filter, and sort values and builds request url to get products
-    buildRequestUrl(search, filter, sort) {
+    buildRequestUrl(search, filter, sort, page) {
         let requestUrl;
 
         if (search === "" && filter === "" && sort === "") {
             // no searchInput, no filterInput, no sortInput
-            requestUrl = `${apiUrl}/products`
+            requestUrl = `${apiUrl}/products?page=${page}`;
 
         } else if (search !== "" && filter !== "" && sort !== "") {
             // searchInput, filterInput, sortInput - all
-            requestUrl = `${apiUrl}/products?q=${search}&category_id=${filter}&sort=${sort}`;
+            requestUrl = `${apiUrl}/products?q=${search}&category_id=${filter}&sort=${sort}&page=${page}`;
 
         } else if (search !== "" && filter === "" && sort === "") {
             // searchInput only
-            requestUrl = `${apiUrl}/products?q=${search}`;
+            requestUrl = `${apiUrl}/products?q=${search}&page=${page}`;
 
         } else if (search === "" && filter !== "" && sort === "") {
             // filterInput only
-            requestUrl = `${apiUrl}/products?category_id=${filter}`;
+            requestUrl = `${apiUrl}/products?category_id=${filter}&page=${page}`;
 
         } else if (search === "" && filter === "" && sort !== "") {
             // sortInput only
-            requestUrl = `${apiUrl}/products?sort=${sort}`;
+            requestUrl = `${apiUrl}/products?sort=${sort}&page=${page}`;
 
         } else if (search !== "" && filter !== "" && sort === "") {
             // searchInput and filterInput
-            requestUrl = `${apiUrl}/products?q=${search}&category_id=${filter}`;
+            requestUrl = `${apiUrl}/products?q=${search}&category_id=${filter}&page=${page}`;
 
         } else if (search !== "" && filter === "" && sort !== "") {
             // searchInput and sortInput
-            requestUrl = `${apiUrl}/products?q=${search}&sort=${sort}`;
+            requestUrl = `${apiUrl}/products?q=${search}&sort=${sort}&page=${page}`;
 
         } else if (search === "" && filter !== "" && sort !== "") {
             // filterInput and sortInput
-            requestUrl = `${apiUrl}/products?category_id=${filter}&sort=${sort}`;
-
+            requestUrl = `${apiUrl}/products?category_id=${filter}&sort=${sort}&page=${page}`;
         }
         
         return requestUrl;
