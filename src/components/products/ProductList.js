@@ -18,9 +18,10 @@ class ProductList extends Component {
             currentUser: {},
             searchInput: "",
             filterInput: "",
-            sortInput: "",
+            sortInput: "a_to_z",
             page: 1,
-            resultsPerPage: 5
+            resultsPerPage: 5,
+            totalResults: 0
         };
 
         this.executeProductSearch = this.executeProductSearch.bind(this);
@@ -30,11 +31,23 @@ class ProductList extends Component {
         this.handlePreviousPage = this.handlePreviousPage.bind(this);
     }
 
+    getProducts = (searchInput, filterInput, sortInput, page) => {
+        ProductDataManager.getProducts(searchInput, filterInput, sortInput, page)
+            .then(response => {
+                this.setState({
+                    products: response.products,
+                    totalResults: response.meta.total_entries
+                });
+            });
+    }
+
     componentDidMount() {
-        // Get all products and put in state
-        ProductDataManager.getAllProducts(this.state.page).then(response => {
-            this.setState({ products: response.products })
-        });
+
+        this.getProducts(
+            this.state.searchInput,
+            this.state.filterInput,
+            this.state.sortInput,
+            this.state.page);
 
         // If there is already a token in cookies, use it to get the current user and store in state
         const cookies = new Cookies();
@@ -45,66 +58,57 @@ class ProductList extends Component {
                 this.setState({ currentUser: user })
             });
         }
-
     }
 
     async executeProductSearch(searchInput) {
         await this.setState({ searchInput: searchInput, page: 1 });
 
-        ProductDataManager.getProducts(
+        this.getProducts(
             this.state.searchInput, 
             this.state.filterInput, 
-            this.state.sortInput,
-            this.state.page)
-            .then(response => {
-                this.setState({ products: response.products });
-            });
+            this.state.sortInput, 
+            this.state.page);
     }
 
     async executeProductFilter(categoryId) {
         await this.setState({ filterInput: categoryId, page: 1 });
 
-        ProductDataManager.getProducts(
-            this.state.searchInput, 
-            this.state.filterInput, 
+        this.getProducts(
+            this.state.searchInput,
+            this.state.filterInput,
             this.state.sortInput,
-            this.state.page)
-            .then(response => {
-                this.setState({ products: response.products });
-            });
+            this.state.page);
     }
 
     async executeProductSort(sortInput) {
         await this.setState({ sortInput: sortInput, page: 1 });
 
-        ProductDataManager.getProducts(
-            this.state.searchInput, 
-            this.state.filterInput, 
+        this.getProducts(
+            this.state.searchInput,
+            this.state.filterInput,
             this.state.sortInput,
-            this.state.page
-        )
-        .then(response => {
-            this.setState({ products: response.products });
-        });
+            this.state.page);
     }
 
     async handleNextPage(event) {
         event.preventDefault();
 
-        // Increment page value and then get products with the new page value
-        await this.setState(prevState => {
-            return { page: prevState.page + 1 };
-        });
+        const totalPages = Math.ceil(this.state.totalResults / this.state.resultsPerPage);
 
-        ProductDataManager.getProducts(
-            this.state.searchInput,
-            this.state.filterInput,
-            this.state.sortInput,
-            this.state.page
-        )
-        .then(response => {
-            this.setState({ products: response.products });
-        });
+        // If not already on the last page, increment page value and get products with the new page value
+        if (this.state.page < totalPages) {
+            await this.setState(prevState => {
+                return { page: prevState.page + 1 }
+            });
+
+            this.getProducts(
+                this.state.searchInput,
+                this.state.filterInput,
+                this.state.sortInput,
+                this.state.page
+            );
+        }
+
     }
 
     async handlePreviousPage(event) {
@@ -116,15 +120,11 @@ class ProductList extends Component {
                 return { page: prevState.page - 1 };
             });
 
-            ProductDataManager.getProducts(
+            this.getProducts(
                 this.state.searchInput,
                 this.state.filterInput,
                 this.state.sortInput,
-                this.state.page
-            )
-            .then(response => {
-                this.setState({ products: response.products });
-            });
+                this.state.page);
         }
         
     }
@@ -141,6 +141,7 @@ class ProductList extends Component {
     }
 
     render() {
+        console.log("ProductList state:", this.state);
         return (
             <React.Fragment>
                 <div className="ProductList-container">
@@ -157,6 +158,7 @@ class ProductList extends Component {
                             executeProductSort={this.executeProductSort}
                         />
                     </div>
+                    <h5>{this.state.totalResults} Results</h5>
                     <div className="products-container">
                         {this.state.products.map(product => 
                             <ProductCard 
