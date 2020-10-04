@@ -21,7 +21,8 @@ class ProductList extends Component {
             sortInput: "a_to_z",
             page: 1,
             resultsPerPage: 5,
-            totalResults: 0
+            totalResults: 0,
+            totalPages: 0
         };
 
         this.executeProductSearch = this.executeProductSearch.bind(this);
@@ -36,9 +37,12 @@ class ProductList extends Component {
     getProducts = (searchInput, filterInput, sortInput, page) => {
         ProductDataManager.getProducts(searchInput, filterInput, sortInput, page)
             .then(response => {
+                const totalPages = Math.ceil(response.meta.total_entries / this.state.resultsPerPage);
+
                 this.setState({
                     products: response.products,
-                    totalResults: response.meta.total_entries
+                    totalResults: response.meta.total_entries,
+                    totalPages: totalPages
                 });
             });
     }
@@ -99,10 +103,8 @@ class ProductList extends Component {
     async handleNextPage(event) {
         event.preventDefault();
 
-        const totalPages = Math.ceil(this.state.totalResults / this.state.resultsPerPage);
-
         // If not already on the last page, increment page value and get products with the new page value
-        if (this.state.page < totalPages) {
+        if (this.state.page < this.state.totalPages) {
             await this.setState(prevState => {
                 return { page: prevState.page + 1 }
             });
@@ -114,7 +116,6 @@ class ProductList extends Component {
                 this.state.page
             );
         }
-
     }
 
     async handlePreviousPage(event) {
@@ -153,7 +154,7 @@ class ProductList extends Component {
         event.preventDefault();
 
         // Get the last page of results
-        const totalPages = Math.ceil(this.state.totalResults / this.state.resultsPerPage);
+        const totalPages = this.state.totalPages;
 
         await this.setState({ page: totalPages });
 
@@ -194,7 +195,10 @@ class ProductList extends Component {
                             executeProductSort={this.executeProductSort}
                         />
                     </div>
-                    <h5>{this.state.totalResults} Results</h5>
+                    <div className="ProductList__resultsInfo">
+                        <h5>{this.state.totalResults} Results</h5>
+                        <h5>Displaying page {this.state.page} of {this.state.totalPages}</h5>
+                    </div>
                     <div className="products-container">
                         {this.state.products.map(product => 
                             <ProductCard 
@@ -206,13 +210,35 @@ class ProductList extends Component {
                         )}
                     </div>
                     
-                    <Pagination className="ProductList__pagination--container ">
+                    <Pagination size="lg" className="ProductList__pagination--container">
                         <PaginationItem>
                             <PaginationLink first onClick={this.handleFirstPage} />
                         </PaginationItem>
                         <PaginationItem>
                             <PaginationLink previous onClick={this.handlePreviousPage} />
                         </PaginationItem>
+                        <PaginationItem active>
+                            <PaginationLink>
+                                {this.state.page}
+                            </PaginationLink>
+                        </PaginationItem>
+
+                        {this.state.page < this.state.totalPages && 
+                        <PaginationItem>
+                            <PaginationLink>
+                                {this.state.page + 1}
+                            </PaginationLink>
+                        </PaginationItem>
+                        }
+
+                        {this.state.page < this.state.totalPages - 1 &&
+                        <PaginationItem>
+                            <PaginationLink>
+                                {this.state.page + 2}
+                            </PaginationLink>
+                        </PaginationItem>
+                        }
+
                         <PaginationItem>
                             <PaginationLink next onClick={this.handleNextPage} />
                         </PaginationItem>
