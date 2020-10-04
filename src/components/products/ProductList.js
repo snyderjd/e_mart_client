@@ -29,6 +29,8 @@ class ProductList extends Component {
         this.executeProductSort = this.executeProductSort.bind(this);
         this.handleNextPage = this.handleNextPage.bind(this);
         this.handlePreviousPage = this.handlePreviousPage.bind(this);
+        this.handleFirstPage = this.handleFirstPage.bind(this);
+        this.handleLastPage = this.handleLastPage.bind(this);
     }
 
     getProducts = (searchInput, filterInput, sortInput, page) => {
@@ -47,7 +49,8 @@ class ProductList extends Component {
             this.state.searchInput,
             this.state.filterInput,
             this.state.sortInput,
-            this.state.page);
+            this.state.page
+        );
 
         // If there is already a token in cookies, use it to get the current user and store in state
         const cookies = new Cookies();
@@ -67,7 +70,8 @@ class ProductList extends Component {
             this.state.searchInput, 
             this.state.filterInput, 
             this.state.sortInput, 
-            this.state.page);
+            this.state.page
+        );
     }
 
     async executeProductFilter(categoryId) {
@@ -77,7 +81,8 @@ class ProductList extends Component {
             this.state.searchInput,
             this.state.filterInput,
             this.state.sortInput,
-            this.state.page);
+            this.state.page
+        );
     }
 
     async executeProductSort(sortInput) {
@@ -87,7 +92,8 @@ class ProductList extends Component {
             this.state.searchInput,
             this.state.filterInput,
             this.state.sortInput,
-            this.state.page);
+            this.state.page
+        );
     }
 
     async handleNextPage(event) {
@@ -124,9 +130,39 @@ class ProductList extends Component {
                 this.state.searchInput,
                 this.state.filterInput,
                 this.state.sortInput,
-                this.state.page);
+                this.state.page
+            );
         }
-        
+    }
+
+    async handleFirstPage(event) {
+        event.preventDefault();
+
+        // Get the first page of results
+        await this.setState({ page: 1 });
+
+        this.getProducts(
+            this.state.searchInput,
+            this.state.filterInput,
+            this.state.sortInput,
+            this.state.page
+        );
+    }
+
+    async handleLastPage(event) {
+        event.preventDefault();
+
+        // Get the last page of results
+        const totalPages = Math.ceil(this.state.totalResults / this.state.resultsPerPage);
+
+        await this.setState({ page: totalPages });
+
+        this.getProducts(
+            this.state.searchInput,
+            this.state.filterInput,
+            this.state.sortInput,
+            this.state.page
+        );
     }
 
     renderAddProductButton() {
@@ -171,18 +207,18 @@ class ProductList extends Component {
                     </div>
                     
                     <Pagination className="ProductList__pagination--container ">
-                        {/* <PaginationItem>
-                            <PaginationLink first />
-                        </PaginationItem> */}
+                        <PaginationItem>
+                            <PaginationLink first onClick={this.handleFirstPage} />
+                        </PaginationItem>
                         <PaginationItem>
                             <PaginationLink previous onClick={this.handlePreviousPage} />
                         </PaginationItem>
                         <PaginationItem>
                             <PaginationLink next onClick={this.handleNextPage} />
                         </PaginationItem>
-                        {/* <PaginationItem>
-                            <PaginationLink last />
-                        </PaginationItem> */}
+                        <PaginationItem>
+                            <PaginationLink last onClick={this.handleLastPage} />
+                        </PaginationItem>
                     </Pagination>
                     
                 </div>
