@@ -5,6 +5,7 @@ import './Products.css';
 import Cookies from 'universal-cookie';
 import UserDataManager from '../../modules/UserDataManager';
 import OrderDataManager from '../../modules/OrderDataManager';
+import ReviewList from '../reviews/ReviewList';
 
 class ProductDetail extends Component {
     constructor(props) {
@@ -83,6 +84,7 @@ class ProductDetail extends Component {
                     {this.renderEditProductButton()}
                     {this.renderAddToCartButton()}
                 </div>
+                <ReviewList productId={this.props.productId} />
             </div>
         )
     }

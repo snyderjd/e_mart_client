@@ -88,29 +88,6 @@ class OrderList extends Component {
     )
   }
 
-//   render() {
-//     console.log("ProductList state", this.state);
-//     return (
-//         <React.Fragment>
-//             <div className="ProductList-container">
-//                 <h1>All Products</h1>
-//                 {this.renderAddProductButton()}
-//                 <div className="products-container">
-//                     {this.state.products.map(product => 
-//                         <ProductCard 
-//                             key={product.id}
-//                             product={product}
-//                             currentUser={this.state.currentUser}
-//                             {...this.props}
-//                         />    
-//                     )}
-//                 </div>
-                
-//             </div>
-//         </React.Fragment>
-//     )
-// }
-
 }
 
 export default OrderList;

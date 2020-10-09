@@ -1,0 +1,8 @@
+/* Styling for Reviews */
+
+.ReviewCard__container {
+  background: lightgray;
+  border: 2px solid orange;
+  padding: 10px;
+  margin: 10px;
+}
