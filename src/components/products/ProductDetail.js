@@ -6,6 +6,7 @@ import Cookies from 'universal-cookie';
 import UserDataManager from '../../modules/UserDataManager';
 import OrderDataManager from '../../modules/OrderDataManager';
 import ReviewList from '../reviews/ReviewList';
+import ReviewModal from '../reviews/ReviewModal';
 
 class ProductDetail extends Component {
     constructor(props) {
@@ -43,6 +44,11 @@ class ProductDetail extends Component {
         OrderDataManager.addProductToOrder(activeOrderId, productId);
     }
 
+    addReview = (reviewObject) => {
+        // Call API function that saves a new review to the database
+        // Re-fetches the product from the database
+    }
+
     renderEditProductButton() {
         if (this.state.currentUser.role === "admin") {
             return  <Button
@@ -65,6 +71,12 @@ class ProductDetail extends Component {
         }
     }
 
+    renderReviewModal = () => {
+        if (this.state.currentUser.email) {
+            return  <ReviewModal {...this.props} addReview={this.addReview} />
+        }
+    }
+
     render() {
         console.log("ProductDetail state", this.state);
         return (
@@ -84,6 +96,7 @@ class ProductDetail extends Component {
                     {this.renderEditProductButton()}
                     {this.renderAddToCartButton()}
                 </div>
+                {this.renderReviewModal()}
                 <ReviewList productId={this.props.productId} />
             </div>
         )
