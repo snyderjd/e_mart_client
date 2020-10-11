@@ -10,3 +10,13 @@
 .ReviewCard__title {
   font-weight: bold;
 }
+
+.Review-inputs-group {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.Review-input {
+  width: 67%;
+}

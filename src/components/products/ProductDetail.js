@@ -7,21 +7,31 @@ import UserDataManager from '../../modules/UserDataManager';
 import OrderDataManager from '../../modules/OrderDataManager';
 import ReviewList from '../reviews/ReviewList';
 import ReviewModal from '../reviews/ReviewModal';
+import ReviewDataManager from '../../modules/ReviewDataManager';
 
 class ProductDetail extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
-            product: { category: {} },
-            currentUser: {}
+            product: {},
+            category: {},
+            currentUser: {},
+            reviews: []
         };
+
+        this.addReview = this.addReview.bind(this);
     }
 
     componentDidMount() {
         // Get the product by its id
         ProductDataManager.getSingleProduct(this.props.productId)
             .then(product => {
-                this.setState({ product: product });
+                this.setState({ 
+                    product: product,
+                    category: product.category,
+                    reviews: product.reviews
+                });
             });
 
         // If there is already a token in cookies, use it to get the current user and store in state
@@ -46,7 +56,18 @@ class ProductDetail extends Component {
 
     addReview = (reviewObject) => {
         // Call API function that saves a new review to the database
-        // Re-fetches the product from the database
+        ReviewDataManager.createReview(reviewObject, this.props.productId)
+            .then(review => {
+                // Re-fetch the product from the database
+                ProductDataManager.getSingleProduct(this.props.productId)
+                    .then(product => {
+                        this.setState({ 
+                            product: product,
+                            category: product.category,
+                            reviews: product.reviews
+                        })
+                    });
+            });
     }
 
     renderEditProductButton() {
@@ -73,7 +94,12 @@ class ProductDetail extends Component {
 
     renderReviewModal = () => {
         if (this.state.currentUser.email) {
-            return  <ReviewModal {...this.props} addReview={this.addReview} />
+            return  <ReviewModal  
+                        addReview={this.addReview} 
+                        currentUser={this.state.currentUser}
+                        productId={this.props.productId}
+                        {...this.props}
+                    />
         }
     }
 
@@ -90,14 +116,14 @@ class ProductDetail extends Component {
                         </img>
                     }
                 <p className="ProductDetail__description">{this.state.product.description}</p>
-                <p className="ProductDetail__category">{this.state.product.category.name}</p>
+                <p className="ProductDetail__category">{this.state.category.name}</p>
                 <p className="ProductDetail__price">$ {this.state.product.price}</p>
                 <div className="ProductDetail__buttons--container">
                     {this.renderEditProductButton()}
                     {this.renderAddToCartButton()}
                 </div>
                 {this.renderReviewModal()}
-                <ReviewList productId={this.props.productId} />
+                <ReviewList productId={this.props.productId} reviews={this.state.reviews} />
             </div>
         )
     }
