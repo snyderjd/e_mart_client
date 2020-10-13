@@ -1,6 +1,8 @@
 import Cookies from "universal-cookie";
 
 const apiUrl = "http://localhost:3000/api";
+const cookies = new Cookies();
+const token = cookies.get('token');
 
 export default {
 
@@ -15,10 +17,6 @@ export default {
   },
 
   createReview(review, productId) {
-    const cookies = new Cookies();
-    const token = cookies.get('token');
-    console.log("review object:", JSON.stringify(review));
-
     const config = {
       method: "POST",
       headers: {
@@ -29,6 +27,18 @@ export default {
     }
 
     return fetch(`${apiUrl}/products/${productId}/reviews`, config)
+      .then(response => response.json());
+  },
+
+  deleteReview(reviewId) {
+    const config = {
+      method: "DELETE",
+      headers: {
+        "Authorization": token
+      }
+    }
+
+    return fetch(`${apiUrl}/reviews/${reviewId}`, config)
       .then(response => response.json());
   }
 

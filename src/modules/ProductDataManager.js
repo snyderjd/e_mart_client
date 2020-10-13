@@ -1,6 +1,8 @@
 import Cookies from 'universal-cookie';
 
 const apiUrl = "http://localhost:3000/api";
+const cookies = new Cookies();
+const token = cookies.get('token');
 
 export default {
     getAllProducts(page) {
@@ -30,9 +32,6 @@ export default {
     },
 
     postProduct(productForm) {
-        const cookies = new Cookies();
-        const token = cookies.get('token');
-
         const config = {
             method: "POST",
             headers: {
@@ -47,9 +46,6 @@ export default {
     },
 
     updateProduct(productForm, productId) {
-        const cookies = new Cookies();
-        const token = cookies.get('token');
-
         const config = {
             method: "PUT",
             headers: {
@@ -64,9 +60,6 @@ export default {
     },
 
     deleteProductImage(productId) {
-        const cookies = new Cookies();
-        const token = cookies.get('token');
-
         return fetch(`${apiUrl}/products/${productId}/image`, {
             method: "DELETE",
             headers: {

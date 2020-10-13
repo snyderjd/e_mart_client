@@ -70,6 +70,22 @@ class ProductDetail extends Component {
             });
     }
 
+    deleteReview = (reviewId) => {
+        // Call API function that deletes the review, then re-fetch the product to update the ReviewList
+        ReviewDataManager.deleteReview(reviewId)
+            .then(review => {
+                // Re-fetch the product from the database
+                ProductDataManager.getSingleProduct(this.props.productId)
+                    .then(product => {
+                        this.setState({
+                            product: product,
+                            category: product.category,
+                            reviews: product.reviews
+                        });
+                    });
+            });
+    }
+
     renderEditProductButton() {
         if (this.state.currentUser.role === "admin") {
             return  <Button
@@ -123,7 +139,10 @@ class ProductDetail extends Component {
                     {this.renderAddToCartButton()}
                 </div>
                 {this.renderReviewModal()}
-                <ReviewList productId={this.props.productId} reviews={this.state.reviews} />
+                <ReviewList 
+                    productId={this.props.productId} 
+                    reviews={this.state.reviews} 
+                />
             </div>
         )
     }
