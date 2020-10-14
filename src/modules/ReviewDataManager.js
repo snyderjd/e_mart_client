@@ -17,6 +17,9 @@ export default {
   },
 
   createReview(review, productId) {
+    const cookies = new Cookies();
+    const token = cookies.get('token');
+
     const config = {
       method: "POST",
       headers: {
@@ -31,6 +34,9 @@ export default {
   },
 
   deleteReview(reviewId) {
+    const cookies = new Cookies();
+    const token = cookies.get('token');
+    
     const config = {
       method: "DELETE",
       headers: {

@@ -141,7 +141,8 @@ class ProductDetail extends Component {
                 {this.renderReviewModal()}
                 <ReviewList 
                     productId={this.props.productId} 
-                    reviews={this.state.reviews} 
+                    reviews={this.state.reviews}
+                    deleteReview={this.deleteReview} 
                 />
             </div>
         )

@@ -32,6 +32,7 @@ class ReviewCard extends Component {
     
     if (deleteConfirmed) {
       console.log("delete the review");
+      this.props.deleteReview(this.props.review.id);
     }
   }
 

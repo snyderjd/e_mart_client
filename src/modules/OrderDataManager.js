@@ -1,11 +1,12 @@
 import Cookies from 'universal-cookie';
 
 const apiUrl = "http://localhost:3000/api";
-const cookies = new Cookies();
-const token = cookies.get('token');
 
 export default {
   createOrder() {
+    const cookies = new Cookies();
+    const token = cookies.get('token');
+
     return fetch(`${apiUrl}/orders`, {
       method: "POST",
       headers: {
@@ -16,6 +17,9 @@ export default {
   },
 
   getOrders() {
+    const cookies = new Cookies();
+    const token = cookies.get('token');
+
     return fetch(`${apiUrl}/orders`, {
       method: "GET",
       headers: {
@@ -25,6 +29,9 @@ export default {
   },
 
   getOrder(id) {
+    const cookies = new Cookies();
+    const token = cookies.get('token');
+
     return fetch(`${apiUrl}/orders/${id}`, {
       method: "GET",
       headers: {
@@ -34,6 +41,9 @@ export default {
   },
 
   addProductToOrder(orderId, productId) {
+    const cookies = new Cookies();
+    const token = cookies.get('token');
+
     return fetch(`${apiUrl}/orders/${orderId}/${productId}`, {
       method: "POST",
       headers: {
@@ -50,6 +60,9 @@ export default {
   },
 
   deleteProductFromOrder(orderId, productId) {
+    const cookies = new Cookies();
+    const token = cookies.get('token');
+
     return fetch(`${apiUrl}/orders/${orderId}/${productId}`, {
       method: "DELETE",
       headers: {
@@ -59,6 +72,9 @@ export default {
   },
 
   updateOrder(orderId, order) {
+    const cookies = new Cookies();
+    const token = cookies.get('token');
+
     return fetch(`${apiUrl}/orders/${orderId}`, {
       method: "PATCH",
       headers: {

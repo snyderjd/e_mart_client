@@ -34,8 +34,9 @@ class ReviewList extends Component {
         <h3>Reviews</h3>
         {this.props.reviews && this.props.reviews.map(review => 
           <ReviewCard 
-            currentUserId={this.state.currentUserId} 
             review={review} 
+            currentUserId={this.state.currentUserId}
+            deleteReview={this.props.deleteReview} 
             key={review.id} 
           />
         )}
