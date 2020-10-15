@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button } from 'reactstrap';
 import ReviewDataManager from '../../modules/ReviewDataManager';
+import ReviewEditModal from './ReviewEditModal';
 import './Reviews.css';
 
 class ReviewCard extends Component {
@@ -46,6 +47,12 @@ class ReviewCard extends Component {
     }
   }
 
+  renderEditButton = () => {
+    if (this.props.currentUserId === this.props.review.user_id) {
+      return  <ReviewEditModal reviewId={this.props.review.id} />
+    }
+  }
+
   render() {
     console.log("ReviewCard state", this.state);
     console.log("ReviewCard props", this.props);
@@ -58,6 +65,7 @@ class ReviewCard extends Component {
         <p>{this.props.review.body}</p>
         <div className="ReviewCard__buttons--container">
           {this.renderDeleteButton()}
+          {this.renderEditButton()}
         </div>
       </div>
 
