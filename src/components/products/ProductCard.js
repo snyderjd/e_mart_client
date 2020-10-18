@@ -27,6 +27,20 @@ class ProductCard extends Component {
         OrderDataManager.addProductToOrder(activeOrderId, productId);
     }
 
+    renderReviewSummary = () => {
+        const reviews = this.props.product.reviews;
+        let sum = 0;
+        reviews.forEach(review => sum += review.rating);
+        const avgReview = sum / reviews.length;
+        const formattedAvgReview = parseFloat(avgReview.toFixed(1));
+
+        if (reviews.length > 0) {
+            return  <p>{formattedAvgReview} / 5 ({reviews.length})</p>
+        } else {
+            return <p>No reviews</p>
+        }
+    }
+
     renderAddToCartButton = () => {
         //   If currentUser in props has an email address, they are an authorized user and should see the "Add To Cart" button
         if (this.props.currentUser.email) {
@@ -41,10 +55,10 @@ class ProductCard extends Component {
     
     // Render a product, showing it's basic information on the ProductList component
     render() {
+        console.log("ProductCard product", this.props.product);
         return (
             <div className="ProductCard__container">
                 <div className="ProductCard__body">
-                    <h3 className="ProductCard-heading">{this.props.product.name}</h3>
                     {this.props.product.image_url !== "No image" &&
                         <img alt="Product image" src={this.props.product.image_url}
                             height="200"
@@ -52,16 +66,15 @@ class ProductCard extends Component {
                         >
                         </img>
                     }
-                    <p>Description: {this.props.product.description}</p>
-                    <p>Category: {this.props.product.category.name}</p>
-                    <p>Price: ${this.props.product.price}</p>
-                    <p>Quantity In Stock: {this.props.product.quantity}</p>
+                    <h3 className="ProductCard-heading">{this.props.product.name}</h3>
+                    <h4>${this.props.product.price}</h4>
+                    {this.renderReviewSummary()}
                 </div>
                 <div className="ProductCard__buttons--container">
                     <Button onClick={this.handleViewProduct} color="primary">View Product</Button>
                     {this.renderAddToCartButton()}    
                 </div>
-            </div>
+            </div>        
         )
     }
 }

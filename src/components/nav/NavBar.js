@@ -69,7 +69,7 @@ class NavBar extends Component {
                 <nav className="navbar fixed-top navbar-expand d-flex justify-content-between">
                     <ul className="navbar-nav d-flex justify-content-end">
                         <li className="nav-item">
-                            <Link to="/products" className="nav-link">All Products</Link>
+                            <Link to="/products" className="nav-link">Products</Link>
                         </li>
                         {this.renderLoginOrLogout()}
                         {this.renderCartLink()}

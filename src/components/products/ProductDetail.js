@@ -138,6 +138,14 @@ class ProductDetail extends Component {
     render() {
         return (
             <div className="ProductDetail__container">
+                <div className="ProductDetail__image-summary--container">
+                    <div className="ProductDetail__image--container">
+                        {/* Put product image here */}
+                    </div>
+                    <div className="ProductDetail__summary--container">
+                        {/* Put product summary here (Title, Review summary, price, buttons) */}
+                    </div>
+                </div>
                 <h2 className="ProductDetail__header">{this.state.product.name}</h2>
                 {this.state.product.image_url !== "No image" &&
                         <img alt="Product image" src={this.state.product.image_url}
