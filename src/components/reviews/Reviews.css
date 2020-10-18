@@ -1,0 +1,35 @@
+/* Styling for Reviews */
+
+.ReviewCard__container {
+  background: lightgray;
+  border: 2px solid orange;
+  padding: 10px;
+  margin: 10px;
+}
+
+.ReviewCard__title {
+  font-weight: bold;
+}
+
+.Review-inputs-group {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px;
+}
+
+.Review-input {
+  width: 67%;
+}
+
+.ReviewCard__buttons--container {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 10px;
+  width: 30%;
+}
+
+/* .ProductDetail__buttons--container {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 10px;
+} */

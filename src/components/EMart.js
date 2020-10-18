@@ -23,7 +23,6 @@ class EMart extends Component {
         const token = cookies.get('token');
 
         if (token) {
-            console.log("already have a token");
             UserDataManager.getCurrentUser(token).then(user => {
                 this.setState({ token: token, currentUser: user })
             });
@@ -50,13 +49,11 @@ class EMart extends Component {
 
                     UserDataManager.getCurrentUser(this.state.token).then(user => {
                         this.setState({ currentUser: user });
-                        console.log(user);
                     });
 
                     // Create a new order or get user's active order and store in cookies
                     OrderDataManager.createOrder().then(order => {
                         cookies.set('activeOrder', order);
-                        console.log("activeOrder", order);
                     });
 
                 } else {
@@ -66,7 +63,6 @@ class EMart extends Component {
     }
 
     render() {
-        console.log("EMart state", this.state);
         return (
             <React.Fragment>
                 <div className="EMart--container">

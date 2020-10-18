@@ -19,9 +19,7 @@ class OrderList extends Component {
     // Get user's orders and put in state (should only be completed orders)
     OrderDataManager.getOrders()
       .then(orders => {
-        console.log("orders", orders);
         const completedOrders = orders.filter(order => order.is_complete === true)
-        console.log("completedOrders", completedOrders);
         this.setState({ completedOrders })
       });
   }
@@ -41,7 +39,6 @@ class OrderList extends Component {
   }
 
   render() {
-    console.log("OrderList state:", this.state);
     return (
       <div className="OrderList__container">
         <h1>Order History</h1>
@@ -87,29 +84,6 @@ class OrderList extends Component {
       </div>
     )
   }
-
-//   render() {
-//     console.log("ProductList state", this.state);
-//     return (
-//         <React.Fragment>
-//             <div className="ProductList-container">
-//                 <h1>All Products</h1>
-//                 {this.renderAddProductButton()}
-//                 <div className="products-container">
-//                     {this.state.products.map(product => 
-//                         <ProductCard 
-//                             key={product.id}
-//                             product={product}
-//                             currentUser={this.state.currentUser}
-//                             {...this.props}
-//                         />    
-//                     )}
-//                 </div>
-                
-//             </div>
-//         </React.Fragment>
-//     )
-// }
 
 }
 

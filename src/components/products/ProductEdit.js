@@ -115,8 +115,6 @@ class ProductEdit extends Component {
     }
 
     render() {
-        console.log("ProductEdit props", this.props);
-        console.log("ProductEdit state", this.state);
         return (
             <div className="ProductEdit--container">
                 <h1 className="ProductEdit--heading">Edit Product</h1>

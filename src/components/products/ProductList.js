@@ -32,6 +32,7 @@ class ProductList extends Component {
         this.handlePreviousPage = this.handlePreviousPage.bind(this);
         this.handleFirstPage = this.handleFirstPage.bind(this);
         this.handleLastPage = this.handleLastPage.bind(this);
+        this.handlePageNumberLink = this.handlePageNumberLink.bind(this);
     }
 
     getProducts = (searchInput, filterInput, sortInput, page) => {
@@ -166,6 +167,22 @@ class ProductList extends Component {
         );
     }
 
+    async handlePageNumberLink(event) {
+        event.preventDefault();
+
+        // Go to the page from the link that was clicked
+        const newPageNumber = parseInt(event.target.id);
+
+        await this.setState({ page: newPageNumber })
+        
+        this.getProducts(
+            this.state.searchInput,
+            this.state.filterInput,
+            this.state.sortInput,
+            this.state.page
+        );
+    }
+
     renderAddProductButton() {
         if (this.state.currentUser.role === "admin") {
             return <Button
@@ -178,7 +195,6 @@ class ProductList extends Component {
     }
 
     render() {
-        console.log("ProductList state:", this.state);
         return (
             <React.Fragment>
                 <div className="ProductList-container">
@@ -225,7 +241,7 @@ class ProductList extends Component {
 
                         {this.state.page < this.state.totalPages && 
                         <PaginationItem>
-                            <PaginationLink>
+                            <PaginationLink id={this.state.page + 1} onClick={this.handlePageNumberLink}>
                                 {this.state.page + 1}
                             </PaginationLink>
                         </PaginationItem>
@@ -233,7 +249,7 @@ class ProductList extends Component {
 
                         {this.state.page < this.state.totalPages - 1 &&
                         <PaginationItem>
-                            <PaginationLink>
+                            <PaginationLink id={this.state.page + 2} onClick={this.handlePageNumberLink}>
                                 {this.state.page + 2}
                             </PaginationLink>
                         </PaginationItem>

@@ -34,7 +34,6 @@ class Cart extends Component {
 
     OrderDataManager.deleteProductFromOrder(this.state.activeOrderId, event.target.id)
       .then(response => {
-        console.log("response", response);
         OrderDataManager.getOrder(this.state.activeOrderId)
           .then(activeOrder => {
             this.setState({ activeOrder })
@@ -45,7 +44,6 @@ class Cart extends Component {
 
   updateOrder = (order) => {
     // Calls OrderDataManager.updateOrder(orderId, order), passing in the order object received from the CheckoutModal and using the activeOrderId in state
-    console.log("updatedOrder", order);
     OrderDataManager.updateOrder(this.state.activeOrderId, order)
       .then(order => {
 
