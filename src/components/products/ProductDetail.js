@@ -65,7 +65,23 @@ class ProductDetail extends Component {
                             product: product,
                             category: product.category,
                             reviews: product.reviews
-                        })
+                        });
+                    });
+            });
+    }
+
+    updateReview = (reviewObject, reviewId) => {
+        // Call API function that updates a review
+        ReviewDataManager.updateReview(reviewObject, reviewId)
+            .then(review => {
+                // Re-fetch the product from the database
+                ProductDataManager.getSingleProduct(this.props.productId)
+                    .then(product => {
+                        this.setState({
+                            product: product,
+                            category: product.category,
+                            reviews: product.reviews
+                        });
                     });
             });
     }
@@ -120,7 +136,6 @@ class ProductDetail extends Component {
     }
 
     render() {
-        console.log("ProductDetail state", this.state);
         return (
             <div className="ProductDetail__container">
                 <h2 className="ProductDetail__header">{this.state.product.name}</h2>
@@ -142,7 +157,8 @@ class ProductDetail extends Component {
                 <ReviewList 
                     productId={this.props.productId} 
                     reviews={this.state.reviews}
-                    deleteReview={this.deleteReview} 
+                    deleteReview={this.deleteReview}
+                    updateReview={this.updateReview} 
                 />
             </div>
         )

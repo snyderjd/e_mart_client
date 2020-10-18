@@ -48,8 +48,6 @@ class ProductForm extends Component {
     } 
 
     render() {
-        console.log("ProductForm state", this.state);
-        console.log("ProductForm props", this.props);
         return (
             <div className="ProductForm--container">
                 <h1 className="ProductForm--heading">Add a New Product</h1>

@@ -32,7 +32,6 @@ class ReviewCard extends Component {
     const deleteConfirmed = window.confirm("Are you sure you want to delete this review?");
     
     if (deleteConfirmed) {
-      console.log("delete the review");
       this.props.deleteReview(this.props.review.id);
     }
   }
@@ -49,13 +48,11 @@ class ReviewCard extends Component {
 
   renderEditButton = () => {
     if (this.props.currentUserId === this.props.review.user_id) {
-      return  <ReviewEditModal reviewId={this.props.review.id} />
+      return  <ReviewEditModal reviewId={this.props.review.id} updateReview={this.props.updateReview} />
     }
   }
 
   render() {
-    console.log("ReviewCard state", this.state);
-    console.log("ReviewCard props", this.props);
     return(
       <div className="ReviewCard__container">
         <h5 className="ReviewCard__title">{this.props.review.title}</h5>
@@ -68,7 +65,6 @@ class ReviewCard extends Component {
           {this.renderEditButton()}
         </div>
       </div>
-
     )
   }
 }

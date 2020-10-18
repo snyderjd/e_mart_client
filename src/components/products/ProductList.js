@@ -195,7 +195,6 @@ class ProductList extends Component {
     }
 
     render() {
-        console.log("ProductList state:", this.state);
         return (
             <React.Fragment>
                 <div className="ProductList-container">

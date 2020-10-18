@@ -27,8 +27,6 @@ class ReviewList extends Component {
   }
 
   render() {
-    console.log("ReviewList state:", this.state);
-    console.log("ReviewList props:", this.props);
     return (
       <div className="ReviewList__container">
         <h3>Reviews</h3>
@@ -36,7 +34,8 @@ class ReviewList extends Component {
           <ReviewCard 
             review={review} 
             currentUserId={this.state.currentUserId}
-            deleteReview={this.props.deleteReview} 
+            deleteReview={this.props.deleteReview}
+            updateReview={this.props.updateReview} 
             key={review.id} 
           />
         )}

@@ -20,3 +20,16 @@
 .Review-input {
   width: 67%;
 }
+
+.ReviewCard__buttons--container {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 10px;
+  width: 30%;
+}
+
+/* .ProductDetail__buttons--container {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 10px;
+} */

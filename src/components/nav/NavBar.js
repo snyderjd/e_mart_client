@@ -64,7 +64,6 @@ class NavBar extends Component {
     }
 
     render() {
-        console.log("navbar props", this.props)
         return (
             <React.Fragment>
                 <nav className="navbar fixed-top navbar-expand d-flex justify-content-between">

@@ -33,6 +33,23 @@ export default {
       .then(response => response.json());
   },
 
+  updateReview(review, reviewId) {
+    const cookies = new Cookies();
+    const token = cookies.get('token');
+
+    const config = {
+      method: "PATCH",
+      headers: {
+        "Authorization": token,
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(review)
+    }
+
+    return fetch(`${apiUrl}/reviews/${reviewId}`, config)
+      .then(response => response.json());
+  },
+
   deleteReview(reviewId) {
     const cookies = new Cookies();
     const token = cookies.get('token');
