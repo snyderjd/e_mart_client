@@ -16,7 +16,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    border-bottom: 2px solid lightgray;
+    border: 2px solid lightgray;
     width: 40%;
     padding: 10px;
     margin: 10px;
@@ -46,11 +46,21 @@
 
 .ProductForm__buttons--container, 
 .ProductEdit__buttons--container,
-.ProductCard__buttons--container,
-.ProductDetail__buttons--container {
+.ProductCard__buttons--container {
     display: flex;
     justify-content: space-evenly;
     margin: 10px;
+}
+
+.ProductDetail__buttons--container {
+    display: flex;
+    flex-direction: column;
+}
+
+.ProductDetail__button--editProduct,
+.ProductDetail__button--addToCart,
+.ProductDetail__button--addReview {
+    margin: 2px;
 }
 
 .AddProduct__button {
@@ -96,6 +106,24 @@
 .ProductList__resultsInfo {
     display: flex;
     justify-content: space-between;
-    background: salmon;
+    background: lightgoldenrodyellow;
     border: 1px solid black;
+}
+
+.ProductDetail__image-summary--container {
+    display: flex;
+}
+
+.ProductDetail__image--container {
+    width: 60%;
+    border-right: 2px solid lightgray;
+}
+
+.ProductDetail__image--container img {
+    object-fit: contain;
+}
+
+.ProductDetail__summary--container {
+    width: 30%;
+    margin: 20px;
 }

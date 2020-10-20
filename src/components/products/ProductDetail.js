@@ -105,6 +105,7 @@ class ProductDetail extends Component {
     renderEditProductButton() {
         if (this.state.currentUser.role === "admin") {
             return  <Button
+                        className="ProductDetail__button--editProduct"
                         onClick={() => this.props.history.push(`/products/${this.state.product.id}/edit`)}
                         color="primary">
                         Edit Product
@@ -115,7 +116,8 @@ class ProductDetail extends Component {
     renderAddToCartButton = () => {
         // If currentUser has an email address, they are an authorized user and should see the "Add To Cart" button
         if (this.state.currentUser.email) {
-            return  <Button 
+            return  <Button
+                        className="ProductDetail__button--addToCart" 
                         id={this.state.product.id}
                         color="primary"
                         onClick={this.handleAddToCart}>
@@ -135,33 +137,49 @@ class ProductDetail extends Component {
         }
     }
 
+    renderReviewSummary = () => {
+        const reviews = this.state.reviews;
+        let sum = 0;
+        reviews.forEach(review => sum += review.rating);
+        const avgReview = sum / reviews.length;
+        const formattedAvgReview = parseFloat(avgReview.toFixed(1));
+
+        if (reviews.length > 0) {
+            return <p>{formattedAvgReview} / 5 ({reviews.length})</p>
+        } else {
+            return <p>No reviews</p>
+        }
+    }
+
     render() {
         return (
             <div className="ProductDetail__container">
                 <div className="ProductDetail__image-summary--container">
                     <div className="ProductDetail__image--container">
-                        {/* Put product image here */}
+                        {this.state.product.image_url !== "No image" &&
+                            <img alt={this.state.product.name} src={this.state.product.image_url}
+                                height="400"
+                                width="500"
+                            >
+                            </img>
+                        }
                     </div>
                     <div className="ProductDetail__summary--container">
-                        {/* Put product summary here (Title, Review summary, price, buttons) */}
+                        <h2 className="ProductDetail__header">{this.state.product.name}</h2>
+                        <p className="ProductDetail__category">{this.state.category.name}</p>
+                        {this.renderReviewSummary()}
+                        <h3 className="ProductDetail__price">$ {this.state.product.price}</h3>
+                        <div className="ProductDetail__buttons--container">
+                            {this.renderEditProductButton()}
+                            {this.renderAddToCartButton()}
+                            {this.renderReviewModal()}
+                        </div>
                     </div>
                 </div>
-                <h2 className="ProductDetail__header">{this.state.product.name}</h2>
-                {this.state.product.image_url !== "No image" &&
-                        <img alt="Product image" src={this.state.product.image_url}
-                            height="300"
-                            width="400"
-                        >
-                        </img>
-                    }
-                <p className="ProductDetail__description">{this.state.product.description}</p>
-                <p className="ProductDetail__category">{this.state.category.name}</p>
-                <p className="ProductDetail__price">$ {this.state.product.price}</p>
-                <div className="ProductDetail__buttons--container">
-                    {this.renderEditProductButton()}
-                    {this.renderAddToCartButton()}
+                <div className="ProductDetail__description--container">
+                    <h3>Description</h3>
+                    <p className="ProductDetail__description">{this.state.product.description}</p>
                 </div>
-                {this.renderReviewModal()}
                 <ReviewList 
                     productId={this.props.productId} 
                     reviews={this.state.reviews}
