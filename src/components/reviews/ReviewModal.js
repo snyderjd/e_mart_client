@@ -57,11 +57,11 @@ class ReviewModal extends Component {
 
   render() {
     return (
-      <div>
-        <Button 
+      <div className="ReviewModal__container">
+        <Button
+          className="ProductDetail__button--addReview" 
           onClick={this.toggle} 
-          color="primary"
-          className="ProductDetail__button--addReview">
+          color="primary">
             Add Review
         </Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>

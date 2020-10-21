@@ -128,7 +128,7 @@ class ProductDetail extends Component {
 
     renderReviewModal = () => {
         if (this.state.currentUser.email) {
-            return  <ReviewModal  
+            return  <ReviewModal
                         addReview={this.addReview} 
                         currentUser={this.state.currentUser}
                         productId={this.props.productId}

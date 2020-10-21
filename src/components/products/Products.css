@@ -55,12 +55,18 @@
 .ProductDetail__buttons--container {
     display: flex;
     flex-direction: column;
+    margin-top: 20px;
 }
 
 .ProductDetail__button--editProduct,
 .ProductDetail__button--addToCart,
 .ProductDetail__button--addReview {
     margin: 2px;
+    width: 90%;
+}
+
+.ReviewModal__container {
+    width: 100%;
 }
 
 .AddProduct__button {
