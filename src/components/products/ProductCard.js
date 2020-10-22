@@ -29,13 +29,24 @@ class ProductCard extends Component {
 
     renderReviewSummary = () => {
         const reviews = this.props.product.reviews;
+        const numReviews = reviews.length;
         let sum = 0;
         reviews.forEach(review => sum += review.rating);
-        const avgReview = sum / reviews.length;
+        const avgReview = sum / numReviews;
         const formattedAvgReview = parseFloat(avgReview.toFixed(1));
 
-        if (reviews.length > 0) {
-            return  <p>{formattedAvgReview} / 5 ({reviews.length})</p>
+        if (numReviews > 0) {
+            if (avgReview < 1.5) {
+                return <h5>&#9733;&#9734;&#9734;&#9734;&#9734; {formattedAvgReview} ({numReviews})</h5>
+            } else if (avgReview < 2.5) {
+                return <h5>&#9733;&#9733;&#9734;&#9734;&#9734; {formattedAvgReview} ({numReviews})</h5>
+            } else if (avgReview < 3.5) {
+                return <h5>&#9733;&#9733;&#9733;&#9734;&#9734; {formattedAvgReview} ({numReviews})</h5>
+            } else if (avgReview < 4.5) {
+                return <h5>&#9733;&#9733;&#9733;&#9733;&#9734; {formattedAvgReview} ({numReviews})</h5>
+            } else {
+                return <h5>&#9733;&#9733;&#9733;&#9733;&#9733; {formattedAvgReview} ({numReviews})</h5>
+            }
         } else {
             return <p>No reviews</p>
         }
