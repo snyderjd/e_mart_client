@@ -1,8 +1,7 @@
 /* Styling for Reviews */
 
 .ReviewCard__container {
-  background: lightgray;
-  border: 2px solid orange;
+  border-bottom: 2px solid lightgray;
   padding: 10px;
   margin: 10px;
 }
@@ -28,8 +27,20 @@
   width: 30%;
 }
 
-/* .ProductDetail__buttons--container {
+.ReviewCard__rating {
+  align-items: center;
+  background: #333;
+  color: gold;
   display: flex;
-  justify-content: space-evenly;
-  margin: 10px;
-} */
+  font-size: 150px;
+  height: 100vh;
+  justify-content: center;
+}
+
+.ReviewCard__header {
+  display: flex;
+}
+
+.ReviewCard__header--item {
+  margin-right: 20px;
+}

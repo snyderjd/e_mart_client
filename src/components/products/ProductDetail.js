@@ -105,6 +105,7 @@ class ProductDetail extends Component {
     renderEditProductButton() {
         if (this.state.currentUser.role === "admin") {
             return  <Button
+                        className="ProductDetail__button--editProduct"
                         onClick={() => this.props.history.push(`/products/${this.state.product.id}/edit`)}
                         color="primary">
                         Edit Product
@@ -115,7 +116,8 @@ class ProductDetail extends Component {
     renderAddToCartButton = () => {
         // If currentUser has an email address, they are an authorized user and should see the "Add To Cart" button
         if (this.state.currentUser.email) {
-            return  <Button 
+            return  <Button
+                        className="ProductDetail__button--addToCart" 
                         id={this.state.product.id}
                         color="primary"
                         onClick={this.handleAddToCart}>
@@ -126,7 +128,7 @@ class ProductDetail extends Component {
 
     renderReviewModal = () => {
         if (this.state.currentUser.email) {
-            return  <ReviewModal  
+            return  <ReviewModal
                         addReview={this.addReview} 
                         currentUser={this.state.currentUser}
                         productId={this.props.productId}
@@ -135,25 +137,61 @@ class ProductDetail extends Component {
         }
     }
 
+    renderReviewSummary = () => {
+        const reviews = this.state.reviews;
+        const numReviews = reviews.length;
+        let sum = 0;
+        reviews.forEach(review => sum += review.rating);
+        const avgReview = sum / reviews.length;
+        const formattedAvgReview = parseFloat(avgReview.toFixed(1));
+
+        if (numReviews > 0) {
+            if (avgReview < 1.5) {
+                return <h5>&#9733;&#9734;&#9734;&#9734;&#9734; {formattedAvgReview} ({numReviews})</h5>
+            } else if (avgReview < 2.5) {
+                return <h5>&#9733;&#9733;&#9734;&#9734;&#9734; {formattedAvgReview} ({numReviews})</h5>
+            } else if (avgReview < 3.5) {
+                return <h5>&#9733;&#9733;&#9733;&#9734;&#9734; {formattedAvgReview} ({numReviews})</h5>
+            } else if (avgReview < 4.5) {
+                return <h5>&#9733;&#9733;&#9733;&#9733;&#9734; {formattedAvgReview} ({numReviews})</h5>
+            } else {
+                return <h5>&#9733;&#9733;&#9733;&#9733;&#9733; {formattedAvgReview} ({numReviews})</h5>
+            }
+        } else {
+            return <p>No reviews</p>
+        }
+    }
+
+
     render() {
         return (
             <div className="ProductDetail__container">
-                <h2 className="ProductDetail__header">{this.state.product.name}</h2>
-                {this.state.product.image_url !== "No image" &&
-                        <img alt="Product image" src={this.state.product.image_url}
-                            height="300"
-                            width="400"
-                        >
-                        </img>
-                    }
-                <p className="ProductDetail__description">{this.state.product.description}</p>
-                <p className="ProductDetail__category">{this.state.category.name}</p>
-                <p className="ProductDetail__price">$ {this.state.product.price}</p>
-                <div className="ProductDetail__buttons--container">
-                    {this.renderEditProductButton()}
-                    {this.renderAddToCartButton()}
+                <div className="ProductDetail__image-summary--container">
+                    <div className="ProductDetail__image--container">
+                        {this.state.product.image_url !== "No image" &&
+                            <img alt={this.state.product.name} src={this.state.product.image_url}
+                                height="400"
+                                width="500"
+                            >
+                            </img>
+                        }
+                    </div>
+                    <div className="ProductDetail__summary--container">
+                        <h2 className="ProductDetail__header">{this.state.product.name}</h2>
+                        <p className="ProductDetail__category">{this.state.category.name}</p>
+                        {this.renderReviewSummary()}
+                        <h3 className="ProductDetail__price">$ {this.state.product.price}</h3>
+                        <div className="ProductDetail__buttons--container">
+                            {this.renderEditProductButton()}
+                            {this.renderAddToCartButton()}
+                            {this.renderReviewModal()}
+                        </div>
+                    </div>
                 </div>
-                {this.renderReviewModal()}
+                <div className="ProductDetail__description--container">
+                    <h3>Description</h3>
+                    <p className="ProductDetail__description">{this.state.product.description}</p>
+                </div>
                 <ReviewList 
                     productId={this.props.productId} 
                     reviews={this.state.reviews}

@@ -16,11 +16,14 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 100%;
-    border: 2px solid blue;
+    border: 2px solid lightgray;
+    width: 40%;
     padding: 10px;
     margin: 10px;
-    background: #F8F8F8;
+}
+
+.ProductCard__container:hover {
+    background: lightgray;
 }
 
 .ProductForm__form, .ProductEdit__form {
@@ -43,11 +46,27 @@
 
 .ProductForm__buttons--container, 
 .ProductEdit__buttons--container,
-.ProductCard__buttons--container,
-.ProductDetail__buttons--container {
+.ProductCard__buttons--container {
     display: flex;
     justify-content: space-evenly;
     margin: 10px;
+}
+
+.ProductDetail__buttons--container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 20px;
+}
+
+.ProductDetail__button--editProduct,
+.ProductDetail__button--addToCart,
+.ProductDetail__button--addReview {
+    margin: 2px;
+    width: 90%;
+}
+
+.ReviewModal__container {
+    width: 100%;
 }
 
 .AddProduct__button {
@@ -93,4 +112,24 @@
 .ProductList__resultsInfo {
     display: flex;
     justify-content: space-between;
+    background: lightgoldenrodyellow;
+    border: 1px solid black;
+}
+
+.ProductDetail__image-summary--container {
+    display: flex;
+}
+
+.ProductDetail__image--container {
+    width: 60%;
+    border-right: 2px solid lightgray;
+}
+
+.ProductDetail__image--container img {
+    object-fit: contain;
+}
+
+.ProductDetail__summary--container {
+    width: 30%;
+    margin: 20px;
 }

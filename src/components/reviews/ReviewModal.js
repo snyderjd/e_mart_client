@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import './Reviews.css';
+import '../products/Products.css';
 
 class ReviewModal extends Component {
   constructor(props) {
@@ -56,8 +57,13 @@ class ReviewModal extends Component {
 
   render() {
     return (
-      <div>
-        <Button onClick={this.toggle} color="primary">Add Review</Button>
+      <div className="ReviewModal__container">
+        <Button
+          className="ProductDetail__button--addReview" 
+          onClick={this.toggle} 
+          color="primary">
+            Add Review
+        </Button>
         <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
           <ModalHeader>Add a Review</ModalHeader>
           <ModalBody>

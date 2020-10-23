@@ -24,7 +24,7 @@ class ReviewCard extends Component {
     const date = new Date(this.props.review.updated_at);
     const dateArray = date.toDateString().split(" ");
     const dateString = `${dateArray[1]} ${dateArray[2]} ${dateArray[3]}`;
-    return <p>{dateString}</p>
+    return <p className="ReviewCard__header--item">{dateString}</p>
   }
 
   handleDeleteReview = (event) => {
@@ -52,13 +52,31 @@ class ReviewCard extends Component {
     }
   }
 
+  renderReviewRating = () => {
+    const rating = this.props.review.rating;
+
+    if (rating === 1) {
+      return <h5 className="ReviewCard__header--item">&#9733;&#9734;&#9734;&#9734;&#9734;</h5>
+    } else if (rating === 2) {
+      return <h5 className="ReviewCard__header--item">&#9733;&#9733;&#9734;&#9734;&#9734;</h5>
+    } else if (rating === 3) {
+      return <h5 className="ReviewCard__header--item">&#9733;&#9733;&#9733;&#9734;&#9734;</h5>
+    } else if (rating === 4) {
+      return <h5 className="ReviewCard__header--item">&#9733;&#9733;&#9733;&#9733;&#9734;</h5>
+    } else {
+      return <h5 className="ReviewCard__header--item">&#9733;&#9733;&#9733;&#9733;&#9733;</h5>
+    }
+  }
+
   render() {
     return(
       <div className="ReviewCard__container">
+        <div className="ReviewCard__header">
+          {this.renderReviewRating()}
+          <p className="ReviewCard__header--item">{this.state.reviewerName}</p>
+          {this.reviewDate()}
+        </div>
         <h5 className="ReviewCard__title">{this.props.review.title}</h5>
-        <h5>{this.props.review.rating} / 5</h5>
-        {this.reviewDate()}
-        <p>{this.state.reviewerName}</p>
         <p>{this.props.review.body}</p>
         <div className="ReviewCard__buttons--container">
           {this.renderDeleteButton()}
