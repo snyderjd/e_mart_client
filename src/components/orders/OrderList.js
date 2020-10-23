@@ -11,8 +11,6 @@ class OrderList extends Component {
     this.state = {
       completedOrders: [],
     }
-
-    // this.toggle = this.toggle.bind(this);
   }
 
   componentDidMount() {
@@ -29,7 +27,6 @@ class OrderList extends Component {
   }
 
   formatCost = (orderCost) => {
-    // return parseInt(orderCost).toFixed(2);
     let formatter = new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD'
